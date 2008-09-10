@@ -6,9 +6,7 @@ require_once('globalsettings.inc.php');
 $database = DBCONNECTION;
 if (!authorized($database)) { exit; }
 
-pageheader(lang('manage_events'),
-				 lang('manage_events'),
-				 "Update","",$database);
+pageheader(lang('manage_events'), "Update");
 contentsection_begin(lang('manage_events'),true);
 
 $ievent = 0;

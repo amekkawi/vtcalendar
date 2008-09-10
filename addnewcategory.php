@@ -33,9 +33,7 @@ require_once('session_start.inc.php');
     exit;
   }
 
-  pageheader(lang('add_new_event_category'),
-             lang('add_new_event_category'),
-             "Update","",$database);
+  pageheader(lang('add_new_event_category'), "Update");
   contentsection_begin(lang('add_new_event_category'));
 ?>
 <br>

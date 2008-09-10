@@ -7,9 +7,7 @@ require_once('session_start.inc.php');
   if (!authorized($database)) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
  
-	pageheader(lang('view_search_log'),
-					 lang('view_search_log'),
-					 "Update","",$database);
+	pageheader(lang('view_search_log'), "Update");
 	contentsection_begin(lang('view_search_log'),true);
 
 ?>

@@ -62,9 +62,7 @@ require_once('session_start.inc.php');
     }  // end else: if ($templateid > 0)
   }
   
-  pageheader(lang('edit_template'),
-             lang('edit_template'),
-             "Update","",$database);
+  pageheader(lang('edit_template'), "Update");
   contentsection_begin(lang('edit_template'));
 ?>
 <BR>

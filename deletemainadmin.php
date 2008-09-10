@@ -34,9 +34,7 @@ require_once('session_start.inc.php');
   }
 
   // print page header
-  pageheader(lang('delete_main_admin'),
-             lang('delete_main_admin'),
-             "","",$database);
+  pageheader(lang('delete_main_admin'), "");
   contentsection_begin(lang('delete_main_admin'));
 ?>
 <FORM method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">

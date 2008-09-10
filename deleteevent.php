@@ -117,9 +117,7 @@ require_once('session_start.inc.php');
   $result = DBQuery($database, "SELECT name,url FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($_SESSION["AUTH_SPONSORID"])."'" ); 
   $sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
 
-  pageheader(lang('delete_event'),
-             lang('delete_event'),
-             "Update","",$database);
+  pageheader(lang('delete_event'), "Update");
   contentsection_begin(lang('delete_event'));
 ?>
 <FORM method="post" action="deleteevent.php">

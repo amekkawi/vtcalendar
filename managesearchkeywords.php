@@ -7,9 +7,7 @@ require_once('session_start.inc.php');
   if (!authorized($database)) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
  
-	pageheader(lang('manage_search_keywords'),
-					 lang('manage_search_keywords'),
-					 "Update","",$database);
+	pageheader(lang('manage_search_keywords'), "Update");
 	contentsection_begin(lang('manage_search_keywords'),true);
 
   $result = DBQuery($database, "SELECT * FROM vtcal_searchkeyword WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY keyword" ); 

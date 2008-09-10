@@ -36,9 +36,7 @@ require_once('session_start.inc.php');
   }
 
   // print page header
-  pageheader(lang('delete_user'),
-             lang('delete_user'),
-             "Update","",$database);
+  pageheader(lang('delete_user'), "Update");
   contentsection_begin(lang('delete_user'));
 ?>
 <FORM method="post" action="deleteuser.php">

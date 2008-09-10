@@ -40,9 +40,7 @@ require_once('session_start.inc.php');
     }
   }
 
-  pageheader(lang('change_password'),
-             lang('change_password'),
-	           "Update","",$database);
+  pageheader(lang('change_password'), "Update");
 
   contentsection_begin(lang('change_password'));
 ?>

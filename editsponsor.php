@@ -141,9 +141,7 @@ require_once('session_start.inc.php');
 	}
 
   if ( isset($id) ) {
-    pageheader(lang('edit_sponsor'),
-               lang('edit_sponsor'),
-               "Update","",$database);
+    pageheader(lang('edit_sponsor'), "Update");
     contentsection_begin(lang('edit_sponsor'));
 		if ( !isset($check) ) {
   		$result = DBQuery($database, "SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($id)."'" );
@@ -151,9 +149,7 @@ require_once('session_start.inc.php');
 		}
 	}
 	else {
-    pageheader(lang('add_new_sponsor'),
-               lang('add_new_sponsor'),
-               "Update","",$database);
+    pageheader(lang('add_new_sponsor'), "Update");
     contentsection_begin(lang('add_new_sponsor'));
 	}
 ?>

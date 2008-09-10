@@ -7,9 +7,7 @@ require_once('session_start.inc.php');
   if (!authorized($database)) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
  
-	pageheader(lang('manage_event_categories'),
-					 lang('manage_event_categories'),
-					 "Update","",$database);
+	pageheader(lang('manage_event_categories'), "Update");
 	contentsection_begin(lang('manage_event_categories'),true);
 
   $result = DBQuery($database, "SELECT * FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY name" ); 

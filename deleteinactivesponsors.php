@@ -124,9 +124,7 @@ require_once('session_start.inc.php');
 	  exit;
   }
 
-  pageheader(lang('delete_inactive_sponsors'),
-             lang('delete_inactive_sponsors'),
-	           "Update","",$database);
+  pageheader(lang('delete_inactive_sponsors'), "Update");
   contentsection_begin(lang('delete_inactive_sponsors'));
 ?>
 <FORM method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">

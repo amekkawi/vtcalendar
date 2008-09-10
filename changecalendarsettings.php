@@ -121,9 +121,7 @@ WHERE id='".sqlescape($_SESSION["CALENDARID"])."'" );
 $result = DBQuery($database, "SELECT name FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($_SESSION["AUTH_SPONSORID"])."'" ); 
 $sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
 
-pageheader(lang('change_header_footer_colors_auth'),
-           lang('change_header_footer_colors_auth'),
-           "Update","",$database);
+pageheader(lang('change_header_footer_colors_auth'), "Update");
 contentsection_begin(lang('change_header_footer_colors_auth'));
 ?>
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" name="globalSettings">

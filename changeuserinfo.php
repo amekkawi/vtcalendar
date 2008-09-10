@@ -95,16 +95,12 @@ require_once('session_start.inc.php');
       exit;
     }
     else {
-      pageheader(lang('edit_user'),
-               lang('edit_user'),
-	             "Update","",$database);
+      pageheader(lang('edit_user'), "Update");
       contentsection_begin(lang('edit_user'));
 		}
   }
   else {
-    pageheader(lang('add_new_user'),
-               lang('add_new_user'),
-               "Update","",$database);
+    pageheader(lang('add_new_user'), "Update");
     contentsection_begin(lang('add_new_user'));
   }
 

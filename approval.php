@@ -79,9 +79,7 @@ elseif (isset($eventid)) {
   exit;
 }
 
-pageheader(lang('approve_reject_event_updates'),
-           lang('approve_reject_event_updates'),
-           "Update","",$database);
+pageheader(lang('approve_reject_event_updates'), "Update");
 
 contentsection_begin(lang('approve_reject_event_updates'),true);
 

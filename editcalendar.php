@@ -112,9 +112,7 @@ require_once('session_start.inc.php');
 	} // end: if (isset($save) && checkcalendar($cal) )
 
   if ( isset($cal['id']) ) {
-    pageheader(lang('edit_calendar'),
-               lang('edit_calendar'),
-               "Update","",$database);
+    pageheader(lang('edit_calendar'), "Update");
     contentsection_begin(lang('edit_calendar'));
 		if ( !isset($check) ) {
   		$result = DBQuery($database, "SELECT * FROM vtcal_calendar WHERE id='".sqlescape($cal['id'])."'" );
@@ -122,9 +120,7 @@ require_once('session_start.inc.php');
 		}
 	}
 	else {
-    pageheader(lang('add_new_calendar'),
-               lang('add_new_calendar'),
-               "Update","",$database);
+    pageheader(lang('add_new_calendar'), "Update");
     contentsection_begin(lang('add_new_calendar'));
 	}
 ?>

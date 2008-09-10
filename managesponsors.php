@@ -26,9 +26,7 @@ require_once('session_start.inc.php');
 		}
 	}
  
-	pageheader(lang('manage_sponsors'),
-					 lang('manage_sponsors'),
-					 "Update","",$database);
+	pageheader(lang('manage_sponsors'), "Update");
 	contentsection_begin(lang('manage_sponsors'),true);
 ?>
 <form method="post" name="mainform" action="managesponsors.php">

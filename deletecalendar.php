@@ -46,9 +46,7 @@ require_once('session_start.inc.php');
     exit;
   }
 
-  pageheader(lang('delete_calendar'),
-             lang('delete_calendar'),
-             "Update","",$database);
+  pageheader(lang('delete_calendar'), "Update");
   contentsection_begin(lang('delete_calendar'));
 ?>
 <font color="#ff0000"><b><?php echo lang('warning_calendar_delete'); ?> &quot;<b><?php echo $c['name']; ?></b>&quot;</b></font>

@@ -48,16 +48,12 @@ require_once('session_start.inc.php');
       exit;
     }
     else {
-      pageheader(lang('edit_user'),
-                 lang('edit_user'),
-	             "Update","",$database);
+      pageheader(lang('edit_user'), "Update");
       contentsection_begin(lang('edit_user'));
 		}
   }
   else {
-    pageheader(lang('add_new_main_admin'),
-               lang('add_new_main_admin'),
-               "Update","",$database);
+    pageheader(lang('add_new_main_admin'), "Update");
     contentsection_begin(lang('add_new_main_admin'));
   }
   if (isset($user['id']) && (!isset($check) || $check != 1)) { // load user to update information if it's the first time the form is viewed

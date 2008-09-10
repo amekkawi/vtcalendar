@@ -383,9 +383,7 @@ $categoryidlist = $_GET['categoryidlist'];
       while (!checkdate($timeend_month,$timeend_day,$timeend_year)) { $timeend_day--; };
     }
 
-    pageheader(lang('export_events'),
-               lang('export_events'),
-               "","",$database);
+    pageheader(lang('export_events'), "");
     contentsection_begin(lang('export_events'));
 ?>
 <a target="newWindow" onclick="new_window(this.href); return false" 

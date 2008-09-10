@@ -37,9 +37,7 @@ require_once('session_start.inc.php');
   } // end else: if (isset($save))
   
 
-  pageheader(lang('change_homepage'),
-             lang('change_homepage'),
-	           "Update","",$database);
+  pageheader(lang('change_homepage'), "Update");
   contentsection_begin(lang('change_homepage'));
 ?>
 <p><B><?php echo lang('change_homepage_label'); ?></B><BR>

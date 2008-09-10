@@ -49,9 +49,7 @@ require_once('session_start.inc.php');
     }
   } // end else: if (isset($save))
 
-  pageheader(lang('rename_event_category'),
-             lang('rename_event_category'),
-             "Update","",$database);
+  pageheader(lang('rename_event_category'), "Update");
   contentsection_begin(lang('rename_event_category'));
 ?>
 <br>

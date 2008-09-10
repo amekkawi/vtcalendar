@@ -7,9 +7,7 @@ require_once('session_start.inc.php');
   if (!authorized($database)) { exit; }
   if (!$_SESSION["AUTH_MAINADMIN"] ) { exit; } // additional security
  
-	pageheader(lang('manage_calendars'),
-					lang('manage_calendars'),
-					 "Update","",$database);
+	pageheader(lang('manage_calendars'), "Update");
 	contentsection_begin(lang('manage_calendars'),true);
 ?>
 <p><a href="editcalendar.php?new=1"><?php echo lang('add_new_calendar'); ?></a> <?php echo lang('or_modify_existing_calendar'); ?></p>

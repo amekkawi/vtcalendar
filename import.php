@@ -171,9 +171,7 @@ function xmlerror_importevent($xml_parser) {
   feedback("XML error: ".xml_error_string(xml_get_error_code($xml_parser))." at line ".xml_get_current_line_number($xml_parser),FEEDBACKNEG);
 } // end: function xmlerror
 
-  pageheader(lang('import_events'),
-             lang('import_events'),
-             "Update","",$database);
+  pageheader(lang('import_events'), "Update");
   contentsection_begin(lang('import_events'));
   
   $showinputbox = 1;

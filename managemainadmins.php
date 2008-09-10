@@ -7,9 +7,7 @@ require_once('session_start.inc.php');
   if (!authorized($database)) { exit; }
   if (!$_SESSION["AUTH_MAINADMIN"]) { exit; } // additional security
 
-	pageheader(lang('manage_main_admins'),
-					 lang('manage_main_admins'),
-					 "Update","",$database);
+	pageheader(lang('manage_main_admins'), "Update");
 	contentsection_begin(lang('manage_main_admins'),true);
 ?>
 <form method="post" name="mainform" action="<?php echo $_SERVER['PHP_SELF']; ?>">

@@ -401,9 +401,7 @@ function displaylogin($database, $errormsg="") {
 		}
 	}
 
-  pageheader(lang('update_page_header'),
-             "Login",
-            "Update","",$database);
+  pageheader(lang('update_page_header'), "Update");
   contentsection_begin(lang('login'));
 
   if (!empty($errormsg)) {
@@ -448,9 +446,7 @@ function displaylogin($database, $errormsg="") {
 // Display a list of sponsors that the user belongs to
 // so they can choose the one they wish to login as.
 function displaymultiplelogin($database, $errorMessage="") {
-  pageheader(lang('login'),
-             lang('login'),
-            "Update","",$database);
+  pageheader(lang('login'), "Update");
   
   contentsection_begin(lang('choose_sponsor_role'));
   
@@ -494,9 +490,7 @@ function displaymultiplelogin($database, $errorMessage="") {
 } // end: function displaymultiplelogin
 
 function displaynotauthorized($database) {
-  pageheader(lang('login'),
-             lang('login'),
-            "Update","",$database);
+  pageheader(lang('login'), "Update");
   contentsection_begin(lang('error_not_authorized'));
 	?>
 	<?php echo lang('error_not_authorized_message'); ?><br>

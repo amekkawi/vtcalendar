@@ -46,9 +46,7 @@ require_once('session_start.inc.php');
     exit;
   }
 
-  pageheader(lang('delete_event_category'),
-             lang('delete_event_category'),
-             "Update","",$database);
+  pageheader(lang('delete_event_category'), "Update");
   contentsection_begin(lang('delete_event_category'));
 ?>
 <font color="#ff0000"><b><?php echo lang('warning_event_category_delete'); ?> &quot;<b><?php echo htmlentities($category['name']); ?></b>&quot;</b></font>

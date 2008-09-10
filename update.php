@@ -22,9 +22,7 @@ if (!authorized($database)) { exit; }
 $result = DBQuery($database, "SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($_SESSION["AUTH_SPONSORID"])."'" ); 
 $sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
 
-pageheader(lang('update_calendar'),
-					 lang('update_calendar'),
-					 "Update","",$database);
+pageheader(lang('update_calendar'), "Update");
 
 ?>
 

@@ -36,9 +36,7 @@ require_once('session_start.inc.php');
     $sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
   } // end else: if (isset($save))
 
-  pageheader(lang('change_email'),
-             lang('change_email'),
-             "Update","",$database);
+  pageheader(lang('change_email'), "Update");
   contentsection_begin(lang('change_email'));
 ?>
 <p><B><?php echo lang('change_email_label'); ?></B></p>

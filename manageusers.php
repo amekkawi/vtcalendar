@@ -19,9 +19,7 @@ require_once('session_start.inc.php');
     redirect2URL("deleteuser.php?userid=".$userid); exit;
 	}
  
-	pageheader(lang('manage_users'),
-					 lang('manage_users'),
-					 "Update","",$database);
+	pageheader(lang('manage_users'), "Update");
 	contentsection_begin(lang('manage_users'),true);
 ?>
 <form method="post" name="mainform" action="<?php echo $_SERVER['PHP_SELF']; ?>">

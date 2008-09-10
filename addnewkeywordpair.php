@@ -24,9 +24,7 @@ require_once('session_start.inc.php');
     exit;
   }
 
-  pageheader(lang('add_new_keyword_pair'),
-             lang('add_new_keyword_pair'),
-             "Update","",$database);
+  pageheader(lang('add_new_keyword_pair'), "Update");
   contentsection_begin(lang('add_new_keyword_pair'));
 ?>
 <br>

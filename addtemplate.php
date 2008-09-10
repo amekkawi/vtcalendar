@@ -51,9 +51,7 @@ require_once('session_start.inc.php');
     defaultevent($event,$_SESSION["AUTH_SPONSORID"],$database); // empty template
   } // end else: if (isset($check))
 
-  pageheader(lang('add_new_template'),
-             lang('add_new_template'),
-             "Update","",$database);
+  pageheader(lang('add_new_template'), "Update");
   contentsection_begin(lang('add_new_template'));
 ?>
 <BR>

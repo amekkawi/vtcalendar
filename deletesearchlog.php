@@ -21,9 +21,7 @@ require_once('session_start.inc.php');
     exit;
   }
 
-  pageheader(lang('clear_search_log'),
-             lang('clear_search_log'),
-             "Update","",$database);
+  pageheader(lang('clear_search_log'), "Update");
   contentsection_begin(lang('clear_search_log'));
 ?>
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">

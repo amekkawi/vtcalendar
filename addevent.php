@@ -39,9 +39,7 @@ require_once('session_start.inc.php');
   }
 
   // print page header
-  pageheader(lang('choose_template'),
-             lang('choose_template'),
-             "","",$database);
+  pageheader(lang('choose_template'), "");
   contentsection_begin(lang('choose_template'));
 ?>
 <BR>

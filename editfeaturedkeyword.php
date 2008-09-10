@@ -54,9 +54,7 @@ require_once('session_start.inc.php');
 	}
 
   if ( isset($id) ) {
-    pageheader(lang('edit_featured_keyword'),
-               lang('edit_featured_keyword'),
-               "Update","",$database);
+    pageheader(lang('edit_featured_keyword'), "Update");
     contentsection_begin(lang('edit_featured_keyword'));
 		if ( !isset($check) ) {
   		$result = DBQuery($database, "SELECT * FROM vtcal_searchfeatured WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($id)."'" );
@@ -66,9 +64,7 @@ require_once('session_start.inc.php');
 		}
 	}
 	else {
-    pageheader(lang('add_new_featured_keyword'),
-               lang('add_new_featured_keyword'),
-               "Update","",$database);
+    pageheader(lang('add_new_featured_keyword'), "Update");
     contentsection_begin(lang('add_new_featured_keyword'));
 	}
 ?>

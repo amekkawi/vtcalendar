@@ -322,9 +322,7 @@ require_once('session_start.inc.php');
 	
 	// display preview
   if (isset($check) && $eventvalid && isset($preview)) {
-		pageheader(lang('preview_event'),
-							 lang('preview_event'),
-							 "Update","",$database);
+		pageheader(lang('preview_event'), "Update");
 	
 		// determine the text representation in the form "MM/DD/YYYY" and the day of the week
 		$day['text'] = Encode_Date_US($event['timebegin_month'],$event['timebegin_day'],$event['timebegin_year']);
@@ -419,20 +417,14 @@ require_once('session_start.inc.php');
   else {
 		if (isset($eventid)) {
 			if (isset($copy)) {
-				pageheader(lang('copy_event'),
-									 lang('copy_event'),
-									 "Update","",$database);
+				pageheader(lang('copy_event'), "Update");
 				echo "<INPUT type=\"hidden\" name=\"copy\" value=\"",$copy,"\">\n";
 			} else {
-				pageheader(lang('update_event'),
-									 lang('update_event'),
-									 "Update","",$database);
+				pageheader(lang('update_event'), "Update");
 			}
 		}
 		else {
-			pageheader(lang('add_new_event'),
-								 lang('add_new_event'),
-								 "Update","",$database);
+			pageheader(lang('add_new_event'), "Update");
 		}
 		
 		// Preset event with defaults if the form has not yet been submitted.

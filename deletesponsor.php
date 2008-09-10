@@ -50,9 +50,7 @@ require_once('session_start.inc.php');
     exit;
   }
 
-  pageheader(lang('delete_sponsor'),
-             lang('delete_sponsor'),
-             "Update","",$database);
+  pageheader(lang('delete_sponsor'), "Update");
   contentsection_begin(lang('delete_sponsor'));
 ?>
 <p><font color="#ff0000"><b><?php echo lang('delete_sponsor_confirm'); ?> &quot;<b><?php echo $sponsor['name']; ?></b>&quot;</b></font></p>
