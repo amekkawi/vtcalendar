@@ -41,9 +41,8 @@ How this script executes:
 	require_once('globalsettings.inc.php');
 	require_once('main_globalsettings.inc.php');
 	
-	// Open the database and verify that the user is authorized.
-	$database = DBCONNECTION;
-	if (!viewauthorized($database)) { exit; }
+	// Verify that the user is authorized.
+	if (!viewauthorized()) { exit; }
 
 	// Set the default body color.
 	$bodycolor = $_SESSION['MAINCOLOR'];
