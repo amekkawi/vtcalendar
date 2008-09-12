@@ -78,7 +78,7 @@ require_once('session_start.inc.php');
 	}
 	
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   if (!isset($httpreferer)) {
 		if (empty($_SERVER["HTTP_REFERER"])) {
 			$httpreferer = "update.php";
@@ -498,7 +498,7 @@ require_once('session_start.inc.php');
   } // end: ELSE of displaying the input form
 
 	require("footer.inc.php");
-	DBclose($database);
+	DBclose();
 	
 function passeventtimevalues($event,$repeat) {
   echo '<INPUT type="hidden" name="event[timebegin_year]" value="',HTMLSpecialChars($event['timebegin_year']),"\">\n";

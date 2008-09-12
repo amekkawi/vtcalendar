@@ -154,5 +154,5 @@ elseif (COLUMNSIDE == "RIGHT") {
 
 <?php
 	require("footer.inc.php");
-	DBclose($database);
+	DBclose();
 ?>

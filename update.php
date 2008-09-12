@@ -16,7 +16,7 @@ if ( $_SERVER['HTTP_HOST'] != "localhost" ) {
 }
 
 $database = DBCONNECTION;
-if (!authorized($database)) { exit; }
+if (!authorized()) { exit; }
 
 // read sponsor name from DB
 $result = DBQuery("SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($_SESSION["AUTH_SPONSORID"])."'" ); 
@@ -154,5 +154,5 @@ if ( $_SESSION["AUTH_MAINADMIN"] ) {
 </div></div>
 <?php
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

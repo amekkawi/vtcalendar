@@ -10,7 +10,7 @@ require_once('session_start.inc.php');
 
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   
 	if (isset($cancel)) {
     redirect2URL("update.php");
@@ -251,5 +251,5 @@ if (isset($importurl)) { echo $importurl; } ?>" size="60" maxlength="<?php echo 
   contentsection_end();
 
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

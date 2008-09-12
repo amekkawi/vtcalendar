@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
   require_once('globalsettings.inc.php');
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 
   if (isset($_POST['edit'])) { setVar($edit,$_POST['edit'],'edit'); } else { unset($edit); }
@@ -62,5 +62,5 @@ document.mainform.id.focus();
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

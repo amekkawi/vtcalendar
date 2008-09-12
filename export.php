@@ -28,7 +28,7 @@ $categoryidlist = $_GET['categoryidlist'];
   if (isset($_GET['specificsponsor'])) { setVar($specificsponsor,$_GET['specificsponsor'],'specificsponsor'); } else { unset($specificsponsor); }
 			
   $database = DBCONNECTION;
-  if (!viewauthorized($database)) { exit; }
+  if (!viewauthorized()) { exit; }
 
   if (isset($cancel)) {
     redirect2URL("update.php");
@@ -554,5 +554,5 @@ for ($i=date("Y")-1; $i<=date("Y")+3; $i++) {
     require("footer.inc.php");
   }
   
-  DBclose($database);
+  DBclose();
 ?>

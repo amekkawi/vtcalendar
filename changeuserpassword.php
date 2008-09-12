@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
   require_once('globalsettings.inc.php');
   
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   
   if (!($_SESSION["AUTH_TYPE"] == "DB")) {
   	redirect2URL("update.php");
@@ -96,5 +96,5 @@ require_once('session_start.inc.php');
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

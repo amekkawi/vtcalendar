@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
   require_once('globalsettings.inc.php');
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   if (!$_SESSION["AUTH_MAINADMIN"] ) { exit; } // additional security
  
 	pageheader(lang('manage_calendars'), "Update");
@@ -54,5 +54,5 @@ require_once('session_start.inc.php');
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

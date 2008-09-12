@@ -5,7 +5,7 @@ require_once('session_start.inc.php');
   require("inputtdata.inc.php");
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
 
   if (isset($_POST['cancel'])) { setVar($cancel,$_POST['cancel'],'cancel'); } else { unset($cancel); }
   if (isset($_POST['check'])) { setVar($check,$_POST['check'],'check'); } else { unset($check); }
@@ -67,5 +67,5 @@ require_once('session_start.inc.php');
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

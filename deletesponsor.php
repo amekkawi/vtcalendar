@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
   require_once('globalsettings.inc.php');
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 
   if (isset($_POST['save'])) { setVar($save,$_POST['save'],'save'); } else { unset($save); }
@@ -81,5 +81,5 @@ require_once('session_start.inc.php');
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

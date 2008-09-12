@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
   require_once('globalsettings.inc.php');
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
  
 	pageheader(lang('manage_templates'), "Update");
 	contentsection_begin(lang('manage_templates'), true);
@@ -42,5 +42,5 @@ require_once('session_start.inc.php');
   } // end: if ($result->numRows() > 0 )
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

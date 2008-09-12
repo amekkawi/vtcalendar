@@ -47,5 +47,5 @@
 <?php
   contentsection_end();
 	require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

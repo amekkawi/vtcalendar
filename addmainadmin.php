@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
   require_once('globalsettings.inc.php');
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   if (!$_SESSION["AUTH_MAINADMIN"]) { exit; } // additional security
 
   if (isset($_POST['cancel'])) { setVar($cancel,$_POST['cancel'],'cancel'); } else { unset($cancel); }
@@ -16,7 +16,7 @@ require_once('session_start.inc.php');
     return (!empty($user['id']) && isValidInput($user['id'],'userid'));
   }
 
-	function mainAdminExistsInDB($database, $mainuserid) {
+	function mainAdminExistsInDB($mainuserid) {
 		$query = "SELECT count(id) FROM vtcal_adminuser WHERE id='".sqlescape($mainuserid)."'";
 		$result = DBQuery($query ); 
 		$r = $result->fetchRow(0);
@@ -31,7 +31,7 @@ require_once('session_start.inc.php');
   };
 
   if (!empty($mainuserid)) { $user['id'] = $mainuserid; } else { $user['id'] = ""; }
-  if (isset($save) && checkuser($user) && !mainAdminExistsInDB($database, $user['id']) && isValidUser($database, $user['id']) ) { // save user into DB
+  if (isset($save) && checkuser($user) && !mainAdminExistsInDB($user['id']) && isValidUser($user['id']) ) { // save user into DB
 		$query = "INSERT INTO vtcal_adminuser (id) VALUES ('".sqlescape($user['id'])."')";
 		$result = DBQuery($query ); 
 
@@ -72,10 +72,10 @@ require_once('session_start.inc.php');
   	if (isset($check) && $check && (empty($mainuserid))) {
       feedback(lang('choose_user_id'),1);
     }
-    elseif (isset($check) && $check && mainAdminExistsInDB($database,$mainuserid)) {
+    elseif (isset($check) && $check && mainAdminExistsInDB($mainuserid)) {
       feedback(lang('already_main_admin'),1);
     }
-    elseif (isset($check) && $check && !isValidUser($database, $mainuserid)) {
+    elseif (isset($check) && $check && !isValidUser($mainuserid)) {
       feedback(lang('user_not_exists'),1);
     }
 ?><INPUT type="text" size="20" name="mainuserid" maxlength="50" value="<?php
@@ -103,5 +103,5 @@ document.mainform.userid.focus();
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
 require_once('globalsettings.inc.php');
 
 $database = DBCONNECTION;
-if (!authorized($database)) { exit; }
+if (!authorized()) { exit; }
 if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 
 if (isset($_POST['approveallevents'])) { setVar($approveallevents,$_POST['approveallevents'],'approveallevents'); } else { unset($approveallevents); }
@@ -112,7 +112,7 @@ else {
 	</form>
 	
 	<?php
-	$defaultcalendarname = getCalendarName($database, 'default');
+	$defaultcalendarname = getCalendarName('default');
 	
 	// Loop through all the events waiting for approval
   for ($i=0; $i<$result->numRows(); $i++) {
@@ -154,7 +154,7 @@ else {
 			
 			// Note that the event will also be submitted to the default calendar.
 			if ($_SESSION['CALENDARID'] != "default" && $event['showondefaultcal'] == 1) {
-				echo "<br>\n",'<font color="#CC0000"><b>Note:</b> This event will also be submitted to the &quot;'.htmlentities($defaultcalendarname).'&quot; calendar under the &quot;'.htmlentities(getCategoryName($database,$event['showincategory'])).'&quot; category.</font>';
+				echo "<br>\n",'<font color="#CC0000"><b>Note:</b> This event will also be submitted to the &quot;'.htmlentities($defaultcalendarname).'&quot; calendar under the &quot;'.htmlentities(getCategoryName($event['showincategory'])).'&quot; category.</font>';
 			}
 		  ?></div>
 		<table border="0" cellpadding="0" cellspacing="0">
@@ -162,7 +162,7 @@ else {
 				<td style="background-color: #E3E3E3; border: 1px solid #666666; padding: 5px;">
 					<div><b>Submitted by: </b><?php echo htmlentities($event['sponsor_name']); ?><?php
 					if ($_SESSION['CALENDARID'] == "default" && $event['sponsor_calendarid'] != "default") {
-						echo ' <font color=#CC0000">(from the &quot;'.htmlentities(getCalendarName($database,$event['sponsor_calendarid'])).'&quot; calendar)</font>';
+						echo ' <font color=#CC0000">(from the &quot;'.htmlentities(getCalendarName($event['sponsor_calendarid'])).'&quot; calendar)</font>';
 					}
 					?>
 					</div>
@@ -176,7 +176,7 @@ else {
 }
 contentsection_end();
 require("footer.inc.php");
-DBclose($database);
+DBclose();
   
 function sendrejectionemail($eventid,$database) {
   // determine sponsor id, name

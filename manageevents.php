@@ -4,7 +4,7 @@ require_once('session_start.inc.php');
 require_once('globalsettings.inc.php');
 
 $database = DBCONNECTION;
-if (!authorized($database)) { exit; }
+if (!authorized()) { exit; }
 
 pageheader(lang('manage_events'), "Update");
 contentsection_begin(lang('manage_events'),true);
@@ -27,7 +27,7 @@ if ($result->numRows() > 0 ) {
 	?>
 	<?php echo lang('or_manage_existing_events'); ?></p><?php
 	
-	$defaultcalendarname = getCalendarName($database, 'default');
+	$defaultcalendarname = getCalendarName('default');
 	
 	/*
 	
@@ -162,6 +162,6 @@ if ($result->numRows() > 0 ) {
 
 contentsection_end();
 require("footer.inc.php");
-DBclose($database);
+DBclose();
 
 ?>

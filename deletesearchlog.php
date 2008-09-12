@@ -7,7 +7,7 @@ require_once('session_start.inc.php');
   if (isset($_POST['save'])) { setVar($save,$_POST['save'],'save'); } else { unset($save); }
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 
   if (isset($cancel)) {
@@ -33,5 +33,5 @@ require_once('session_start.inc.php');
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>

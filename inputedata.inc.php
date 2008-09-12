@@ -663,8 +663,8 @@ function inputeventdata(&$event,$sponsorid,$inputrequired,$check,$displaydatetim
 	    		?><input type="hidden" id="selectedsponsorid" name="event[sponsorid]" value="<?php echo $event['sponsorid']; ?>">
 	    		<input type="hidden" name="event[showondefaultcal]" value="<?php echo $event['showondefaultcal']; ?>">
 	    		<input type="hidden" name="event[showincategory]" value="<?php echo $event['showincategory']; ?>"><?php
-	    		echo htmlentities(getSponsorName($database,$event['sponsorid']));
-	    		echo ' (from the &quot;'.htmlentities(getSponsorCalendarName($database,$event['sponsorid'])).'&quot; calendar)';
+	    		echo htmlentities(getSponsorName($event['sponsorid']));
+	    		echo ' (from the &quot;'.htmlentities(getSponsorCalendarName($event['sponsorid'])).'&quot; calendar)';
 	    	}
 	    	else {
 		    	?>
@@ -741,7 +741,7 @@ function inputeventdata(&$event,$sponsorid,$inputrequired,$check,$displaydatetim
   </div>
 <?php
   if ( $_SESSION["CALENDARID"] != "default" && $inputrequired ) {
-	  $defaultcalendarname = getCalendarName($database, 'default');
+	  $defaultcalendarname = getCalendarName('default');
 		?>
 		<div style="margin-top: 16px; padding: 4px; margin-bottom: 6px; border-top: 1px solid #666666; background-color: #EEEEEE;">
 			<h3 style="margin: 0; padding: 0; color: #0066CC; font-size: 16px;">Submit to the &quot;<?php echo $defaultcalendarname; ?>&quot; calendar.:</h3>

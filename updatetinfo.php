@@ -30,7 +30,7 @@ require_once('session_start.inc.php');
 
 
   $database = DBCONNECTION;
-  if (!authorized($database)) { exit; }
+  if (!authorized()) { exit; }
 
   if (isset($cancel)) {
     redirect2URL("managetemplates.php");
@@ -79,5 +79,5 @@ require_once('session_start.inc.php');
 <?php
   contentsection_end();
   require("footer.inc.php");
-DBclose($database);
+DBclose();
 ?>
