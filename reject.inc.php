@@ -15,7 +15,7 @@
 
   echo '<SPAN class="bodytext">';
   if (!empty($event['repeatid'])) {
-    readinrepeat($event['repeatid'],$event,$repeat,$database);
+    readinrepeat($event['repeatid'],$event,$repeat);
   	echo lang('recurring_event'),": ";
     $repeatdef = repeatinput2repeatdef($event,$repeat);
     printrecurrence($event['timebegin_year'],
@@ -34,7 +34,7 @@
   <INPUT type="hidden" name="eventid" value="<?php echo $eventid; ?>">
   <BR>
 <?php
-  if (!empty($event['repeatid']) && num_unapprovedevents($event['repeatid'],$database) > 1) {
+  if (!empty($event['repeatid']) && num_unapprovedevents($event['repeatid']) > 1) {
     echo '<INPUT type="submit" name="rejectconfirmedall" value="&nbsp;&nbsp;&nbsp;&nbsp;OK&nbsp;&nbsp;&nbsp;&nbsp;">';
   } 
 	else {

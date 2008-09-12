@@ -41,7 +41,7 @@ require_once('session_start.inc.php');
   if (isset($check)) { // check all the parameter passed for validity and save into DB
     if (!empty($template_name)) { // all parameters are ok
       // save event into DB
-      updatetemplate($templateid,$template_name,$event,$database);
+      updatetemplate($templateid,$template_name,$event);
       
       // reroute to sponsormenu page
       redirect2URL("managetemplates.php");
@@ -69,7 +69,7 @@ require_once('session_start.inc.php');
 <FORM method="post" action="updatetinfo.php">
 <?php
   if (!isset($check)) { $check=0; }
-  inputtemplatedata($event,$_SESSION["AUTH_SPONSORID"],$check,$template_name,$database);
+  inputtemplatedata($event,$_SESSION["AUTH_SPONSORID"],$check,$template_name);
 ?>
 <BR>
 <INPUT type="submit" name="savetemplate" value="<?php echo lang('ok_button_text'); ?>">

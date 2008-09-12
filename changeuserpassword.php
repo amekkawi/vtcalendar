@@ -26,8 +26,8 @@ require_once('session_start.inc.php');
     $user['newpassword1']=$user_newpassword1;
     $user['newpassword2']=$user_newpassword2;
 
-    $oldpw_error = checkoldpassword($user,$_SESSION["AUTH_USERID"],$database);
-    $newpw_error = checknewpassword($user,$database);
+    $oldpw_error = checkoldpassword($user,$_SESSION["AUTH_USERID"]);
+    $newpw_error = checknewpassword($user);
     if ($oldpw_error==0) {
       if ($newpw_error==0) { // new password is valid
         // save password to DB

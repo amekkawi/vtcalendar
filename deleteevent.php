@@ -49,7 +49,7 @@ require_once('session_start.inc.php');
 		// If the event exists in "event_public", then insert it into "event" since it is missing...
 		if ($result->numRows() > 0) {
 			$e = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
-			insertintoevent($e['id'],$e,$database);
+			insertintoevent($e['id'],$e);
 		}
 		
 		// Otherwise, the event does not exist at all.
@@ -80,8 +80,8 @@ require_once('session_start.inc.php');
     if ($result->numRows() > 0) { $event  = $result->fetchRow(DB_FETCHMODE_ASSOC,0); }
     else { $event['title']=""; }
 
-    deletefromevent($eventid,$database);
-    deletefromevent_public($eventid,$database);
+    deletefromevent($eventid);
+    deletefromevent_public($eventid);
 		
 		// also delete the copies of an event that have been forwarded to the default calendar
 		if ( $_SESSION["CALENDARID"] != "default" ) {
@@ -90,9 +90,9 @@ require_once('session_start.inc.php');
 		} // end: if ( $_SESSION["CALENDARID"] != "default" )
 		
     if (isset($deleteall)) {
-      repeatdeletefromevent($event['repeatid'],$database);
-      repeatdeletefromevent_public($event['repeatid'],$database);
-      deletefromrepeat($event['repeatid'],$database);
+      repeatdeletefromevent($event['repeatid']);
+      repeatdeletefromevent_public($event['repeatid']);
+      deletefromrepeat($event['repeatid']);
 
   		// also delete the copies of an event that have been forwarded to the default calendar
 			if ( $_SESSION["CALENDARID"] != "default" ) {
@@ -133,7 +133,7 @@ require_once('session_start.inc.php');
         $event = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
   
         if (!empty($event['repeatid'])) {
-          readinrepeat($event['repeatid'],$event,$repeat,$database);
+          readinrepeat($event['repeatid'],$event,$repeat);
         }
         else { $repeat['mode'] = 0; }
         disassemble_eventtime($event);
@@ -144,7 +144,7 @@ require_once('session_start.inc.php');
 <?php
 		if (!empty($event['repeatid'])) {
 			echo '<font color="#00AA00">';
-			readinrepeat($event['repeatid'],$event,$repeat,$database);
+			readinrepeat($event['repeatid'],$event,$repeat);
 			$repeatdef = repeatinput2repeatdef($event,$repeat);
 			printrecurrence($event['timebegin_year'],
 											$event['timebegin_month'],

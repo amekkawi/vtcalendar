@@ -214,9 +214,9 @@ function xmlerror_importevent($xml_parser) {
 							$id1++;
 							$eventid = $id1."000";
 							$event['id'] = $eventid;
-							insertintoevent($eventid,$event,$database);
+							insertintoevent($eventid,$event);
 							if ($_SESSION["AUTH_ADMIN"]) {
-								publicizeevent($eventid,$event,$database);
+								publicizeevent($eventid,$event);
 							}
 						}
 						$showinputbox = 0;

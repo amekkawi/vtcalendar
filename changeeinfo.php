@@ -112,7 +112,7 @@ require_once('session_start.inc.php');
 			// If the event exists in "event_public", then insert it into "event" since it is missing...
 			if ($result->numRows() > 0) {
 				$e = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
-				insertintoevent($e['id'],$e,$database);
+				insertintoevent($e['id'],$e);
 			}
 			
 			// Otherwise, the event does not exist at all.
@@ -192,12 +192,12 @@ require_once('session_start.inc.php');
       	// the event now has recurrences
         if (sizeof($repeatlist) > 0) {
           // delete the old single event
-          deletefromevent($eventid,$database);
+          deletefromevent($eventid);
 
       	  // insert recurrences
 	        $event['repeatid'] = $eventid; // = getNewEventId();
-	        insertintorepeat($event['repeatid'],$event,$repeat,$database);
-          insertrecurrences($event['repeatid'],$event,$repeatlist,$database);
+	        insertintorepeat($event['repeatid'],$event,$repeat);
+          insertrecurrences($event['repeatid'],$event,$repeatlist);
 
         }
         
@@ -205,11 +205,11 @@ require_once('session_start.inc.php');
         else {
           if ($repeat['mode']>=1 && $repeat['mode']<=2) { // it is a recurring event but has no real recurrences
             // delete the event completely
-            deletefromevent($eventid,$database);
+            deletefromevent($eventid);
       	  }
           else { // it's a single event
             $event['repeatid']="";
-  	        updateevent($eventid,$event,$database);
+  	        updateevent($eventid,$event);
 	        }
         }
       }
@@ -219,17 +219,17 @@ require_once('session_start.inc.php');
       	// the event still has recurrences
         if (!empty($repeatlist)) {
           if (isset($saveall) ||
-             (isset($savethis) /* && recurrenceschanged($event['repeatid'],$repeat,$event,$database) */)
+             (isset($savethis) /* && recurrenceschanged($event['repeatid'],$repeat,$event) */)
        	     ) { // apply the changes to all recurrences
          	  // delete the old events
-            repeatdeletefromevent($event['repeatid'],$database);
+            repeatdeletefromevent($event['repeatid']);
 
             // insert recurrences
-            updaterepeat($event['repeatid'],$event,$repeat,$database);
-            insertrecurrences($event['repeatid'],$event,$repeatlist,$database);
+            updaterepeat($event['repeatid'],$event,$repeat);
+            insertrecurrences($event['repeatid'],$event,$repeatlist);
       	  }
           elseif (isset($savethis)) { // apply the changes only to one recurrence (recurrence pattern hasn't changed)
-            updateevent($eventid,$event,$database);
+            updateevent($eventid,$event);
 	        }
         }
         
@@ -239,21 +239,21 @@ require_once('session_start.inc.php');
         	// it is a recurring event but has no real recurrences
           if ($repeat['mode']>=1 && $repeat['mode']<=2) {
             // delete the event completely
-            repeatdeletefromevent($event['repeatid'],$database);
-            deletefromrepeat($event['repeatid'],$database);
+            repeatdeletefromevent($event['repeatid']);
+            deletefromrepeat($event['repeatid']);
        	  }
        	  
 					// it's a single event
           else {
-						deletefromrepeat($event['repeatid'],$database);
+						deletefromrepeat($event['repeatid']);
        	    $oldrepeatid=$event['repeatid'];
 						$eventid=$event['repeatid']; // added to avoid "...-0001" in eventid if it's not repeating
 	          $event['repeatid']="";
-            insertintoevent($eventid,$event,$database);
+            insertintoevent($eventid,$event);
       	    
 						// delete all old recurring events but one
-            repeatdeletefromevent($oldrepeatid,$database);
-            repeatdeletefromevent_public($oldrepeatid,$database);
+            repeatdeletefromevent($oldrepeatid);
+            repeatdeletefromevent_public($oldrepeatid);
 	        }
         }
       }
@@ -261,10 +261,10 @@ require_once('session_start.inc.php');
       // whatever the "admin" edits gets approved right away
       if ($_SESSION["AUTH_ADMIN"]) {
 	      if (!empty($event['repeatid'])) {
-	      	repeatpublicizeevent($eventid,$event,$database);
+	      	repeatpublicizeevent($eventid,$event);
 	      }
         else {
-        	publicizeevent($eventid,$event,$database);
+        	publicizeevent($eventid,$event);
         }
       }
 
@@ -285,21 +285,21 @@ require_once('session_start.inc.php');
     else {
       if (sizeof($repeatlist) > 0) { // save multiple events
         $event['repeatid'] = getNewEventId();
-	      insertintorepeat($event['repeatid'],$event,$repeat,$database);
-	      insertrecurrences($event['repeatid'],$event,$repeatlist,$database);
+	      insertintorepeat($event['repeatid'],$event,$repeat);
+	      insertrecurrences($event['repeatid'],$event,$repeatlist);
         $eventid = "";
       }
       else { // save just one event
         $event['repeatid'] = ""; // no recurrences
 		    $eventid = getNewEventId();
-        insertintoevent($eventid,$event,$database);
+        insertintoevent($eventid,$event);
       }
       $event['id'] = $eventid;
 
       // whatever the "admin" edits gets approved right away
       if ($_SESSION["AUTH_ADMIN"]) {
-      	if (!empty($event['repeatid'])) { repeatpublicizeevent($eventid,$event,$database); }
-        else { publicizeevent($eventid,$event,$database); }
+      	if (!empty($event['repeatid'])) { repeatpublicizeevent($eventid,$event); }
+        else { publicizeevent($eventid,$event); }
       }
 
       // reroute
@@ -351,7 +351,7 @@ require_once('session_start.inc.php');
 		<?php
 		/*
 				if ($repeat['mode'] > 0 && !empty($event['repeatid'])) {
-					if (!recurrenceschanged($event['repeatid'],$repeat,$event,$database)) {
+					if (!recurrenceschanged($event['repeatid'],$repeat,$event)) {
 						echo '<input type="submit" name="saveall" value="Save changes for ALL recurrences"><BR><BR>';
 					}
 				}
@@ -429,7 +429,7 @@ require_once('session_start.inc.php');
 		
 		// Preset event with defaults if the form has not yet been submitted.
 		if (!isset($check)) {
-			defaultevent($event,$_SESSION["AUTH_SPONSORID"],$database);
+			defaultevent($event,$_SESSION["AUTH_SPONSORID"]);
 		}
 		
 		// Load template if necessary
@@ -463,13 +463,13 @@ require_once('session_start.inc.php');
 				if ($result->numRows() > 0) {
 					$event = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
 					//eventaddslashes($event);
-					insertintoevent($event['id'],$event,$database);
+					insertintoevent($event['id'],$event);
 				}
 			}
 		
 			disassemble_eventtime($event);
 			if (!empty($event['repeatid'])) {
-				readinrepeat($event['repeatid'],$event,$repeat,$database);
+				readinrepeat($event['repeatid'],$event,$repeat);
 			}
 			else { $repeat['mode'] = 0; }
 		  //$sponsorid = $event[sponsorid];
@@ -484,7 +484,7 @@ require_once('session_start.inc.php');
 			echo "<INPUT type=\"hidden\" name=\"detailscaller\" value=\"",$detailscaller,"\">\n"; 
 		}
 		if (!isset($check)) { $check = 0; }
- 		inputeventdata($event,$event['sponsorid'],1,$check,1,$repeat,$database,$copy);
+ 		inputeventdata($event,$event['sponsorid'],1,$check,1,$repeat,$copy);
 		echo '<INPUT type="hidden" name="httpreferer" value="',$httpreferer,'">',"\n";
 		if (isset($eventid)) { echo "<INPUT type=\"hidden\" name=\"eventid\" value=\"",$event['id'],"\">\n"; }
 		echo '<INPUT type="hidden" name="event[repeatid]" value="',HTMLSpecialChars($event['repeatid']),"\">\n";
@@ -588,7 +588,7 @@ function insertrecurrences($repeatid,&$event,&$repeatlist) {
 	  }
     $eventidext .= $i;
 
-    insertintoevent($repeatid."-".$eventidext,$event,$database);
+    insertintoevent($repeatid."-".$eventidext,$event);
   } // end: while ($dateJD = each($repeatlist))
 } // end: function insertrecurrences
 
@@ -596,7 +596,7 @@ function insertrecurrences($repeatid,&$event,&$repeatlist) {
   echo '<INPUT type="submit" name="savethis" value="',lang('save_changes'),'"> ';
 / *
   if ($repeat['mode'] > 0 && !empty($event['repeatid'])) {
-    if (!recurrenceschanged($event['repeatid'],$repeat,$event,$database)) {
+    if (!recurrenceschanged($event['repeatid'],$repeat,$event)) {
       echo '<INPUT type="submit" name="saveall" value="Save changes for ALL recurrences"><BR><BR>';
     }
   }

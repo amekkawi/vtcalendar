@@ -39,7 +39,7 @@ require_once('session_start.inc.php');
   if (isset($check)) { // check all the parameter passed for validity and save into DB
     if (!empty($template_name)) { // parameter is ok
       // save template into DB
-      insertintotemplate($template_name,$event,$database);
+      insertintotemplate($template_name,$event);
 
       // reroute to sponsormenu page
       redirect2URL("managetemplates.php");
@@ -48,7 +48,7 @@ require_once('session_start.inc.php');
   } // end: if (isset($check))
   else {
     $template_name = "";
-    defaultevent($event,$_SESSION["AUTH_SPONSORID"],$database); // empty template
+    defaultevent($event,$_SESSION["AUTH_SPONSORID"]); // empty template
   } // end else: if (isset($check))
 
   pageheader(lang('add_new_template'), "Update");
@@ -58,7 +58,7 @@ require_once('session_start.inc.php');
 <FORM method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 <?php
   if (!isset($check)) { $check=0; }
-  inputtemplatedata($event,$_SESSION["AUTH_SPONSORID"],$check,$template_name,$database);
+  inputtemplatedata($event,$_SESSION["AUTH_SPONSORID"],$check,$template_name);
 ?>
  <BR>
  <INPUT type="submit" name="savetemplate" value="<?php echo lang('ok_button_text'); ?>">

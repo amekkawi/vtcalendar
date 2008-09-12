@@ -279,7 +279,7 @@ function inputeventdata(&$event,$sponsorid,$inputrequired,$check,$displaydatetim
 			if (!empty($event['repeatid'])) {
 				echo "<br>\n";
 				echo '<font color="#00AA00">';
-				readinrepeat($event['repeatid'],$event,$repeat,$database);
+				readinrepeat($event['repeatid'],$event,$repeat);
 				$repeatdef = repeatinput2repeatdef($event,$repeat);
 				printrecurrence($event['timebegin_year'],
 												$event['timebegin_month'],

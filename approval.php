@@ -31,10 +31,10 @@ if (isset($approveallevents)) {
 			if ($event["approved"]==0) {
 				//eventaddslashes($event);
 				if (!empty($event['repeatid'])) {
-					repeatpublicizeevent($eventid,$event,$database);
+					repeatpublicizeevent($eventid,$event);
 				}
 				else {
-					publicizeevent($eventid,$event,$database);
+					publicizeevent($eventid,$event);
 				}
 			}
 	  }
@@ -54,20 +54,20 @@ elseif (isset($eventid)) {
 
     if (isset($approvethis)) {
       // eventaddslashes($event);
-      publicizeevent($eventid,$event,$database);
+      publicizeevent($eventid,$event);
     }
     // approve all events with the same repeatid
     elseif (isset($approveall)) {
-      repeatpublicizeevent($eventid,$event,$database);
+      repeatpublicizeevent($eventid,$event);
     }
     elseif (isset($rejectconfirmedthis)) {
       $result = DBQuery("UPDATE vtcal_event SET approved=-1, rejectreason='".sqlescape($rejectreason)."' WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($eventid)."'" );
-      sendrejectionemail($eventid,$database);
+      sendrejectionemail($eventid);
     }
     elseif (isset($rejectconfirmedall)) {
       // determine repeatid
       $result = DBQuery("UPDATE vtcal_event SET approved=-1, rejectreason='".sqlescape($rejectreason)."' WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND approved=0 AND repeatid='".sqlescape($event['repeatid'])."'" ); 
-      sendrejectionemail($eventid,$database);
+      sendrejectionemail($eventid);
     }
     // ask for confirmation, reason for rejection
     elseif (isset($reject)) {
@@ -143,7 +143,7 @@ else {
 		  if (!empty($event['repeatid'])) {
 				echo "<br>\n";
 				echo '<font color="#00AA00">';
-				readinrepeat($event['repeatid'],$event,$repeat,$database);
+				readinrepeat($event['repeatid'],$event,$repeat);
 				$repeatdef = repeatinput2repeatdef($event,$repeat);
 				printrecurrence($event['timebegin_year'],
 												$event['timebegin_month'],

@@ -55,7 +55,7 @@ if (is_string($database)) {
 	exit;
 }
 
-$calendardata = getCalendarData($config['CalendarID'], $database);
+$calendardata = getCalendarData($config['CalendarID']);
 
 // If there was an error, output the reason.
 if (is_string($calendardata)) {

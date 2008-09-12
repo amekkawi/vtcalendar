@@ -25,6 +25,6 @@
   <tr>
 </table>
 <?php
-    inputeventdata($event,$sponsorid,0,$check,0,$repeat,$database,0);
+    inputeventdata($event,$sponsorid,0,$check,0,$repeat,0);
   } // end: Function inputtemplatedata
 ?>
