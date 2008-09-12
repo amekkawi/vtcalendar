@@ -342,29 +342,30 @@ function lang($sTextKey) {
 
 // Returns a DB connection to the database, or a string that represents an error message.
 function DBopen() {
-  $dbc = DB::connect( DATABASE );
+	global $DBCONNECTION;
+  $DBCONNECTION = DB::connect( DATABASE );
   
-	if (DB::isError($dbc)) {
-		return $dbc->getMessage();
+	if (DB::isError($DBCONNECTION)) {
+		return $DBCONNECTION->getMessage();
 	}
 	
 	echo "<p>OPENED CONNECTION</p>";
   
-  return $dbc;
+  return $DBCONNECTION;
 }
 
 // closes a DB connection to the database
 function DBclose() {
-	$dbc = DBCONNECTION;
-  $dbc->disconnect();
+	global $DBCONNECTION;
+  $DBCONNECTION->disconnect();
 }
 
 // Runs a query against the database connection.
 // Returns a record list if successful.
 // Returns a string with an error message if unsuccessful.
 function DBQuery($query) {
-	$dbc = DBCONNECTION;
-	$result = $dbc->query($query);
+	global $DBCONNECTION;
+	$result = $DBCONNECTION->query($query);
 	
 	if (DB::isError($result) {
 		return DB::errorMessage($result);

@@ -47,9 +47,9 @@ if ( isset($_GET['htmlencode']) && $_GET['htmlencode'] != "" ) { if ( isValidRem
 // Load the Calendar Information
 // ==========================================================
 
-define("DBCONNECTION", DBOpen());
-if (is_string(DBCONNECTION)) {
-	outputErrorMessage("A database error occurred: " . DBCONNECTION);
+$DBCONNECTION = DBOpen();
+if (is_string($DBCONNECTION)) {
+	outputErrorMessage("A database error occurred: " . $DBCONNECTION);
 }
 
 $calendardata = getCalendarData($config['CalendarID']);
