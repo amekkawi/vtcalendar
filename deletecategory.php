@@ -13,7 +13,6 @@ require_once('session_start.inc.php');
   if (isset($_POST['newcategoryid'])) { setVar($newcategoryid,$_POST['newcategoryid'],'categoryid'); } else { unset($newcategoryid); }
   if (isset($_POST['deleteevents'])) { setVar($deleteevents,$_POST['deleteevents'],'deleteevents'); } else { unset($deleteevents); }
 
-  $database = DBCONNECTION;
   if (!authorized()) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 

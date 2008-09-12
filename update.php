@@ -15,7 +15,6 @@ if ( $_SERVER['HTTP_HOST'] != "localhost" ) {
 	}
 }
 
-$database = DBCONNECTION;
 if (!authorized()) { exit; }
 
 // read sponsor name from DB

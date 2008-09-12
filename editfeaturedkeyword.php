@@ -12,7 +12,6 @@ require_once('session_start.inc.php');
 	  if (isset($_GET['id'])) { setVar($id,$_GET['id'],'searchkeywordid'); } else { unset($id); }
  }
 
-  $database = DBCONNECTION;
   if (!authorized()) { exit; }
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 

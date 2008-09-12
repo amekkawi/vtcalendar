@@ -77,7 +77,6 @@ require_once('session_start.inc.php');
     unset($event);	
 	}
 	
-  $database = DBCONNECTION;
   if (!authorized()) { exit; }
   if (!isset($httpreferer)) {
 		if (empty($_SERVER["HTTP_REFERER"])) {

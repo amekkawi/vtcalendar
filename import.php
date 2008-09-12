@@ -9,7 +9,6 @@ require_once('session_start.inc.php');
   if (isset($_GET['startimport'])) { setVar($startimport,$_GET['startimport'],'startimport'); } else { unset($startimport); }
 
 
-  $database = DBCONNECTION;
   if (!authorized()) { exit; }
   
 	if (isset($cancel)) {

@@ -3,7 +3,6 @@ require_once('config.inc.php');
 require_once('session_start.inc.php');
 require_once('globalsettings.inc.php');
 
-$database = DBCONNECTION;
 if (!authorized()) { exit; }
 if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 
@@ -70,7 +69,7 @@ if ( isset($save) ) {
 			$pidName = $pidsTokens[$i];
 			$pidName = trim($pidName);
 			if ( !empty($pidName) ) {
-				if ( isValidUser ( $database, $pidName ) ) {
+				if ( isValidUser ( $pidName ) ) {
 					$pidsAdded[$pidsAddedCount] = $pidName;
 					$pidsAddedCount++;
 				} 

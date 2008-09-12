@@ -5,7 +5,6 @@ require_once('session_start.inc.php');
 
   if (isset($_GET['templateid'])) { setVar($templateid,$_GET['templateid'],'templateid'); } else { unset($templateid); }
 
-  $database = DBCONNECTION;
   if (!authorized()) { exit; }
 
   if (!empty($templateid)) {

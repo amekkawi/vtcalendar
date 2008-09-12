@@ -23,7 +23,6 @@ require_once('session_start.inc.php');
 	}
   if (isset($_POST['detailscaller'])) { setVar($detailscaller,$_POST['detailscaller'],'detailscaller'); } else { unset($detailscaller); }
 
-  $database = DBCONNECTION;
   if (!authorized()) { exit; }
 
   if (!isset($httpreferer)) {

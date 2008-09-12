@@ -27,7 +27,6 @@ $categoryidlist = $_GET['categoryidlist'];
   if (isset($_GET['keyword'])) { setVar($keyword,$_GET['keyword'],'keyword'); } else { unset($keyword); }
   if (isset($_GET['specificsponsor'])) { setVar($specificsponsor,$_GET['specificsponsor'],'specificsponsor'); } else { unset($specificsponsor); }
 			
-  $database = DBCONNECTION;
   if (!viewauthorized()) { exit; }
 
   if (isset($cancel)) {
