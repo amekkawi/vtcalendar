@@ -178,7 +178,7 @@ contentsection_end();
 require("footer.inc.php");
 DBclose();
   
-function sendrejectionemail($eventid,$database) {
+function sendrejectionemail($eventid) {
   // determine sponsor id, name
   $query = "SELECT e.title AS event_title, e.rejectreason AS event_rejectreason, s.name AS sponsor_name, s.email AS sponsor_email, s.id AS sponsorid FROM vtcal_event e, vtcal_sponsor s WHERE e.calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND e.sponsorid=s.id AND e.id='".sqlescape($eventid)."'";
   $result = DBQuery($query ); 

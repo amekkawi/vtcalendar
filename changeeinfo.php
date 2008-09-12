@@ -548,7 +548,7 @@ function passeventvalues($event,$sponsorid,$repeat) {
 // test if the recurrence info was changed, return true if it was
 // not used because changing only one instance of a recurring event was too error-prone
 /*
-function recurrenceschanged($repeatid,&$repeat,&$event,$database) {
+function recurrenceschanged($repeatid,&$repeat,&$event) {
   $repeat['startdate'] = datetime2timestamp($event['timebegin_year'],$event['timebegin_month'],$event['timebegin_day'],0,0,"am");
   $repeat['enddate'] = datetime2timestamp($event['timeend_year'],$event['timeend_month'],$event['timeend_day'],0,0,"am");
 
@@ -562,7 +562,7 @@ function recurrenceschanged($repeatid,&$repeat,&$event,$database) {
 } // end: function recurrenceschanged
 */
 
-function insertrecurrences($repeatid,&$event,&$repeatlist,$database) {
+function insertrecurrences($repeatid,&$event,&$repeatlist) {
   $i = 0;
   while ($dateJD = each($repeatlist)) {
     $i++;
@@ -592,7 +592,7 @@ function insertrecurrences($repeatid,&$event,&$repeatlist,$database) {
   } // end: while ($dateJD = each($repeatlist))
 } // end: function insertrecurrences
 
-/*function savechangesbuttons($event,$repeat,$database) {
+/*function savechangesbuttons($event,$repeat) {
   echo '<INPUT type="submit" name="savethis" value="',lang('save_changes'),'"> ';
 / *
   if ($repeat['mode'] > 0 && !empty($event['repeatid'])) {

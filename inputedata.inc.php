@@ -16,7 +16,7 @@ function defaulteventtime(&$event) {
   return 0;
 }
 
-function defaultevent(&$event,$sponsorid,$database) {
+function defaultevent(&$event,$sponsorid) {
   defaulteventtime($event);
 
   // find sponsor name
@@ -237,7 +237,7 @@ function inputrecurrences(&$event,&$repeat,$check) {
 } // end: function inputrecurrences
 
 /* print out the event input form and use the provided parameter as preset */
-function inputeventdata(&$event,$sponsorid,$inputrequired,$check,$displaydatetime,&$repeat,$database,$copy) {
+function inputeventdata(&$event,$sponsorid,$inputrequired,$check,$displaydatetime,&$repeat,$copy) {
   /* now printing the HTML code for the input form */
   global $use_ampm;
   $unknownvalue = "???"; /* this is printed when the value of input field is unspecified */

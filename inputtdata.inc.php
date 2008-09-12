@@ -2,7 +2,7 @@
   if (!defined("ALLOWINCLUDES")) { exit; } // prohibits direct calling of include files
   require("inputedata.inc.php");
 
-  function inputtemplatedata(&$event,$sponsorid,$check,$template_name,$database) {
+  function inputtemplatedata(&$event,$sponsorid,$check,$template_name) {
 ?>
 <TABLE border="0" cellpadding="2" cellspacing="0">
   <TR>
