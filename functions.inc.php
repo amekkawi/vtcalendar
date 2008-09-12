@@ -367,7 +367,7 @@ function DBQuery($query) {
 	global $DBCONNECTION;
 	$result = $DBCONNECTION->query($query);
 	
-	if (DB::isError($result) {
+	if (DB::isError($result)) {
 		return DB::errorMessage($result);
 	}
 	
