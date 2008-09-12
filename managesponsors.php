@@ -15,7 +15,7 @@ require_once('session_start.inc.php');
 	  redirect2URL("editsponsor.php?id=".$id); exit;
 	}
   elseif ( isset($delete) ) {
-    $result = DBQuery($database, "SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($id)."'" ); 
+    $result = DBQuery("SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($id)."'" ); 
     $sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
     
 		if ( $sponsor['admin'] == 0 ) {
@@ -40,7 +40,7 @@ require_once('session_start.inc.php');
 ?>
 <select name="id" size="<?php echo $numLines; ?>">
 <?php
-  $result = DBQuery($database, "SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY name" ); 
+  $result = DBQuery("SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY name" ); 
 
   for ($i=0; $i<$result->numRows(); $i++) {
     $sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,$i);

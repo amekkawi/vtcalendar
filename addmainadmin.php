@@ -18,7 +18,7 @@ require_once('session_start.inc.php');
 
 	function mainAdminExistsInDB($database, $mainuserid) {
 		$query = "SELECT count(id) FROM vtcal_adminuser WHERE id='".sqlescape($mainuserid)."'";
-		$result = DBQuery($database, $query ); 
+		$result = DBQuery($query ); 
 		$r = $result->fetchRow(0);
 		if ($r[0]>0) { return true; }
 		
@@ -33,7 +33,7 @@ require_once('session_start.inc.php');
   if (!empty($mainuserid)) { $user['id'] = $mainuserid; } else { $user['id'] = ""; }
   if (isset($save) && checkuser($user) && !mainAdminExistsInDB($database, $user['id']) && isValidUser($database, $user['id']) ) { // save user into DB
 		$query = "INSERT INTO vtcal_adminuser (id) VALUES ('".sqlescape($user['id'])."')";
-		$result = DBQuery($database, $query ); 
+		$result = DBQuery($query ); 
 
 		// reroute to sponsormenu page
 		redirect2URL("managemainadmins.php");
@@ -57,7 +57,7 @@ require_once('session_start.inc.php');
     contentsection_begin(lang('add_new_main_admin'));
   }
   if (isset($user['id']) && (!isset($check) || $check != 1)) { // load user to update information if it's the first time the form is viewed
-    $result = DBQuery($database, "SELECT * FROM vtcal_user WHERE id='".sqlescape($user['id'])."'" ); 
+    $result = DBQuery("SELECT * FROM vtcal_user WHERE id='".sqlescape($user['id'])."'" ); 
     $user = $result->fetchRow(DB_FETCHMODE_ASSOC);
   } // end if: "if (isset($mainuserid))"
 ?>

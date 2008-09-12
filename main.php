@@ -59,7 +59,7 @@ How this script executes:
 	}
 	
 	// read all categories from the DB in two arrays
-	$result = DBQuery($database, "SELECT * FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY name" ); 
+	$result = DBQuery("SELECT * FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY name" ); 
 	$numcategories = $result->numRows();
 	for ($c=0; $c<$numcategories; $c++) {
 	  $categorydata = $result->fetchRow(DB_FETCHMODE_ASSOC, $c);

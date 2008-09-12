@@ -23,12 +23,12 @@ require_once('session_start.inc.php');
   // check if name already exists
   $namealreadyexists = false;
   if (!empty($category['name'])) {
-    $result = DBQuery($database, "SELECT * FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND name='".sqlescape($category['name'])."'" );
+    $result = DBQuery("SELECT * FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND name='".sqlescape($category['name'])."'" );
     if ( $result->numRows() > 0 ) { $namealreadyexists = true; }
   }
 
   if (isset($save) && !$namealreadyexists && !empty($category['name']) ) {
-    $result = DBQuery($database, "INSERT INTO vtcal_category (calendarid,name) VALUES ('".sqlescape($_SESSION["CALENDARID"])."','".sqlescape($category['name'])."')" );
+    $result = DBQuery("INSERT INTO vtcal_category (calendarid,name) VALUES ('".sqlescape($_SESSION["CALENDARID"])."','".sqlescape($category['name'])."')" );
     redirect2URL("manageeventcategories.php");
     exit;
   }

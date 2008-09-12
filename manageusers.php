@@ -31,7 +31,7 @@ require_once('session_start.inc.php');
 ?>
 <select name="userid" size="<?php echo $numLines; ?>" style="width:200px">
 <?php
-  $result = DBQuery($database, "SELECT * FROM vtcal_user ORDER BY id" ); 
+  $result = DBQuery("SELECT * FROM vtcal_user ORDER BY id" ); 
 
   for ($i=0; $i<$result->numRows(); $i++) {
     $user = $result->fetchRow(DB_FETCHMODE_ASSOC,$i);

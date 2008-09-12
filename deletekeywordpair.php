@@ -10,7 +10,7 @@ require_once('session_start.inc.php');
   if (!$_SESSION["AUTH_ADMIN"]) { exit; } // additional security
 
 	$query = "DELETE FROM vtcal_searchkeyword WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($id)."'";
-	$result = DBQuery($database, $query );
+	$result = DBQuery($query );
   redirect2URL("managesearchkeywords.php");
   exit;
 ?>

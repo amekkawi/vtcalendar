@@ -10,7 +10,7 @@ require_once('session_start.inc.php');
 	pageheader(lang('manage_event_categories'), "Update");
 	contentsection_begin(lang('manage_event_categories'),true);
 
-  $result = DBQuery($database, "SELECT * FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY name" ); 
+  $result = DBQuery("SELECT * FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY name" ); 
 ?>
 <p><a href="addnewcategory.php"><?php echo lang('add_new_event_category'); ?></a>
 <?php

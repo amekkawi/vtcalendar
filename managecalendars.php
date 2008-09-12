@@ -19,7 +19,7 @@ require_once('session_start.inc.php');
     <td bgcolor="#CCCCCC">&nbsp;</td>
   </tr>
 <?php
-  $result = DBQuery($database, "SELECT * FROM vtcal_calendar ORDER BY id" ); 
+  $result = DBQuery("SELECT * FROM vtcal_calendar ORDER BY id" ); 
 
   $color = "#eeeeee";
   for ($i=0; $i<$result->numRows(); $i++) {

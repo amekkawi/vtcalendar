@@ -15,7 +15,7 @@ require_once('session_start.inc.php');
 <img src="images/spacer.gif" width="400" height="1" alt="1">
 <pre>
 <?php
-  $result = DBQuery($database, "SELECT * FROM vtcal_searchlog WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY time" ); 
+  $result = DBQuery("SELECT * FROM vtcal_searchlog WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' ORDER BY time" ); 
   if ( $result->numRows() > 0 ) {
 		for ($i=0; $i<$result->numRows(); $i++) {
 			$searchlog = $result->fetchRow(DB_FETCHMODE_ASSOC,$i);

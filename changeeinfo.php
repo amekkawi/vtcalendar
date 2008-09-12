@@ -97,7 +97,7 @@ require_once('session_start.inc.php');
   // Do some checks if the ID was set.
   if (!empty($eventid)) {
 	  $query = "SELECT sponsorid FROM vtcal_event WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($eventid)."'";
-	  $result = DBQuery($database, $query );
+	  $result = DBQuery($query );
 	  
 	  // Check that the record exists in "event"...
 	  if ($result->numRows() > 0) {
@@ -107,7 +107,7 @@ require_once('session_start.inc.php');
 	  // Otherwise, see if it exists in "event_public"
 	  else {
 	  	$query = "SELECT * FROM vtcal_event_public WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($eventid)."'";
-			$result = DBQuery($database, $query ); 
+			$result = DBQuery($query ); 
 	  	
 			// If the event exists in "event_public", then insert it into "event" since it is missing...
 			if ($result->numRows() > 0) {
@@ -147,7 +147,7 @@ require_once('session_start.inc.php');
 	}
 
   // check if user chose to reset the sponsorname/url to the default values
-  //$result = DBQuery($database, "SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($event['sponsorid'])."'" ); 
+  //$result = DBQuery("SELECT * FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($event['sponsorid'])."'" ); 
   //$sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
   
   if (isset($event['defaultdisplayedsponsor']) || isset($event['defaultallsponsor'])) {
@@ -317,7 +317,7 @@ require_once('session_start.inc.php');
   } // end: if ((isset($saveall) || ...)
 
   // read sponsor name from DB
-  //$result = DBQuery($database, "SELECT name,url FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($_SESSION["AUTH_SPONSORID"])."'" ); 
+  //$result = DBQuery("SELECT name,url FROM vtcal_sponsor WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($_SESSION["AUTH_SPONSORID"])."'" ); 
   //$sponsor = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
 	
 	// display preview
@@ -333,7 +333,7 @@ require_once('session_start.inc.php');
 		removeslashes($event);
 	
 		// determine the name of the category
-		$result = DBQuery($database, "SELECT id,name AS category_name FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($event['categoryid'])."'" ); 
+		$result = DBQuery("SELECT id,name AS category_name FROM vtcal_category WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($event['categoryid'])."'" ); 
 	
 		if ($result->numRows() > 0) { // error checking, actually there should be always a category
 			$e = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
@@ -435,7 +435,7 @@ require_once('session_start.inc.php');
 		// Load template if necessary
 		if (isset($templateid)) {
 			if ($templateid > 0) {
-				$result = DBQuery($database, "SELECT * FROM vtcal_template WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($templateid)."'" ); 
+				$result = DBQuery("SELECT * FROM vtcal_template WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($templateid)."'" ); 
 				$event = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
 			}
 		}
@@ -447,7 +447,7 @@ require_once('session_start.inc.php');
 		
 		// Load event to update information if it's the first time the form is viewed.
 		if (isset($eventid) && (!isset($check) || $check != 1)) {
-			$result = DBQuery($database, "SELECT * FROM vtcal_event WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($eventid)."'" ); 
+			$result = DBQuery("SELECT * FROM vtcal_event WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($eventid)."'" ); 
 			
 			// Event exists in vtcal_event.
 			if ($result->numRows() > 0) {
@@ -456,7 +456,7 @@ require_once('session_start.inc.php');
 			// For some reason the event is not in vtcal_event (even though it should be).
 			// Try to load it from "event_public".
 			else {
-				$result = DBQuery($database, "SELECT * FROM vtcal_event_public WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($eventid)."'" ); 
+				$result = DBQuery("SELECT * FROM vtcal_event_public WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($eventid)."'" ); 
 		
 				// Event exists in "event_public".
 				// Insert into vtcal_event since it is missing.
@@ -553,7 +553,7 @@ function recurrenceschanged($repeatid,&$repeat,&$event,$database) {
   $repeat['enddate'] = datetime2timestamp($event['timeend_year'],$event['timeend_month'],$event['timeend_day'],0,0,"am");
 
   $query = "SELECT * FROM vtcal_event_repeat WHERE calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND id='".sqlescape($repeatid)."'";
-  $result = DBQuery($database, $query ); 
+  $result = DBQuery($query ); 
   $r = $result->fetchRow(DB_FETCHMODE_ASSOC,0);
 
   return ($r['repeatdef']!=$repeat['repeatdef']) ||

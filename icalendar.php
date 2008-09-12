@@ -38,7 +38,7 @@ require_once('session_start.inc.php');
   if (!empty($keyword)) { $query.= " AND ((e.title LIKE '%".sqlescape($keyword)."%') OR (e.description LIKE '%".sqlescape($keyword)."%'))"; }
 
   $query.= " ORDER BY e.timebegin asc, e.wholedayevent desc";
-  $result = DBQuery($database, $query ); 
+  $result = DBQuery($query ); 
 
   /* read first event if one exists */
   $ievent = 0;
