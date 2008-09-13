@@ -11,6 +11,7 @@
 			<table width="100%" border="0" cellpadding="6" cellspacing="0">
 				<tr>
 					<td id="NaviBar-EventName" valign="bottom" nowrap><a href="main.php?calendarid=<?php echo urlencode($_SESSION["CALENDARID"]);?>&view=day&timebegin=today<?php echo $queryStringExtension; ?>"><?php if (isset($_SESSION["TITLE"])) { echo $_SESSION["TITLE"]; } else { echo lang('calendar'); } ?></a></td>
+					<td valign="bottom" <?php if ($navbaractive=="Upcoming") { echo 'id="NaviBar-Selected"'; }  ?> class="NaviBar-Tab"><div><?php if ($navbaractive=="Upcoming") echo lang('upcoming'); else { echo '<a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=upcoming" >',lang('upcoming'),'</a>'; } ?></div></td>
 					<td valign="bottom" <?php if ($navbaractive=="Day") { echo 'id="NaviBar-Selected"'; }  ?> class="NaviBar-Tab"><div><?php if ($navbaractive=="Day") echo lang('day'); else { echo '<a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=day&timebegin='.urlencode($timebegin).$queryStringExtension.'" >',lang('day'),'</a>'; } ?></div></td>
 					<td valign="bottom" <?php if ($navbaractive=="Week") { echo 'id="NaviBar-Selected"'; }  ?> class="NaviBar-Tab"><div><?php if ($navbaractive=="Week") echo lang('week'); else { echo '<a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=week&timebegin='.urlencode($timebegin).$queryStringExtension.'" >',lang('week'),'</a>'; } ?></div></td>
 					<?php if ($enableViewMonth) { ?>

@@ -107,7 +107,10 @@ NOTE: THIS IS OUT OF DATE.
 	require("main_".$view."_data.inc.php");
 	
 	// Output the header HTML
-	if ( $view == "day" ) {
+	if ( $view == "upcoming" ) {
+		pageheader(lang('upcoming_page_header').$basetitle, "Upcoming");
+	}
+	elseif ( $view == "day" ) {
 		pageheader(lang('day_page_header').$basetitle, "Day");
 	}
 	elseif ( $view == "week" ) {
