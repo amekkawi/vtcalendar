@@ -5,6 +5,8 @@ require_once('session_start.inc.php');
 
 How this script executes:
 
+NOTE: THIS IS OUT OF DATE.
+
 1. Include application.inc.php
 	A. Includes config.inc.php
 		- Defines calendar configuration settings.
