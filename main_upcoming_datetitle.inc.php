@@ -1,5 +1,5 @@
 <?php
   if (!defined("ALLOWINCLUDES")) { exit; } // prohibits direct calling of include files
 
-	echo lang['upcoming'];
+	echo $lang['upcoming'];
 ?>
