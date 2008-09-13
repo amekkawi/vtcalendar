@@ -43,7 +43,8 @@
       <td colspan="3" class="NoAnnouncement" valign="top"><?php echo lang('no_events');?></td>
     </tr><?php
 	}
-
+	
+	$previousDate = "";
   $previousWholeDay = false;
   
 	// print all events of one day
@@ -55,6 +56,15 @@
 		$begintimediff = NOW_AS_TIMENUM - $event_timebegin_num;
 		$endtimediff = NOW_AS_TIMENUM - $event_timeend_num;
 		$EventHasPassed = ( $datediff > 0 || ( $datediff == 0 && $endtimediff > 0 ) );
+		
+		if ($previousDate != $event['timebegin_month']. $event['timebegin_day'] . $event['timebegin_year']) {
+			$previousDate = $event['timebegin_month']. $event['timebegin_day'] . $event['timebegin_year']
+			?>
+				<tr>
+					<td colspan="2" class="DateRow"><?php echo $previousDate; ?></td>
+				</tr>
+			<?php
+		}
 		
 		// Start of Event Row
 		echo '<tr valign="top"';
