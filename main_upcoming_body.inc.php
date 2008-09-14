@@ -7,10 +7,12 @@
 <?php
   $ievent = 0;
   
+  $todayTimeStamp = datetime2timestamp($today['year'],$today['month'],$today['day'],12,0,"am");
+  
   // read all events for this week from the DB
 	// TODO: Should only show next 365 days worth of events.
   $query = "SELECT e.id AS eventid, e.timebegin, e.timeend, e.sponsorid, e.title, e.location, e.description, e.wholedayevent, e.categoryid, c.id, c.name AS category_name FROM vtcal_event_public e, vtcal_category c ";
-	$query.= "WHERE e.calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND c.calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND e.categoryid = c.id AND e.timebegin >= '".sqlescape(datetime2timestamp($today['year'],$today['month'],$today['day'],12,0,"am"))."'";
+	$query.= "WHERE e.calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND c.calendarid='".sqlescape($_SESSION["CALENDARID"])."' AND e.categoryid = c.id AND e.timebegin >= '".sqlescape($todayTimeStamp)."'";
 	
   if ($sponsorid != "all")  { $query.= " AND (e.sponsorid='".sqlescape($sponsorid)."')"; }
 
@@ -40,12 +42,13 @@
   }
 	else { ?>
     <tr>
-      <td colspan="3" class="NoAnnouncement" valign="top"><?php echo lang('no_events');?></td>
+      <td colspan="3" class="NoAnnouncement" valign="top"><?php echo lang('no_upcoming_events');?></td>
     </tr><?php
 	}
 	
 	$previousDate = "";
   $previousWholeDay = false;
+  $firstDaysEvent = true;
   
 	// print all events of one day
 	while ($ievent < $result->numRows()) {
@@ -57,84 +60,96 @@
 		$endtimediff = NOW_AS_TIMENUM - $event_timeend_num;
 		$EventHasPassed = ( $datediff > 0 || ( $datediff == 0 && $endtimediff > 0 ) );
 		
-		if ($previousDate != $event['timebegin_month']. $event['timebegin_day'] . $event['timebegin_year']) {
-			$previousDate = $event['timebegin_month']. $event['timebegin_day'] . $event['timebegin_year']
-			?>
-				<tr>
-					<td colspan="2" class="DateRow"><?php echo $previousDate; ?></td>
-				</tr>
-			<?php
-		}
-		
-		// Start of Event Row
-		echo '<tr valign="top"';
-		if ( $ievent != 0 && $event['wholedayevent']==0 ) {
-			echo ' class="BorderTop"';
-		}
-		echo ">\n";
-		
-		// Start of Time Column
-		echo '<td width="1%" align="right" valign="top" nowrap"';
-    if ( $EventHasPassed ) {
-		  echo ' class="TimeColumn-Past"'; }
-		else {
-			echo ' class="TimeColumn"'; }
-		echo ">&nbsp;";
-		
-		// Time of the Event
-    if ($event['wholedayevent']==0) {
-			echo timestring($event['timebegin_hour'],$event['timebegin_min'],$event['timebegin_ampm']);
-			if ( ! ($event['timeend_hour']==$day_end_h && $event['timeend_min']==59) ) {
-			  echo "<br><i>";
-			  echo timenumber2timelabel($event_timeend_num - $event_timebegin_num);
-			  echo "</i>";
+		// Do not show events that have passed.
+    if ( !$EventHasPassed ) {
+    
+			if ($previousDate != $event['timebegin_year'] . $event['timebegin_month'] . $event['timebegin_day']) {
+			  $previousWholeDay = false;
+			  $firstDaysEvent = true;
+				$previousDate = $event['timebegin_year'] . $event['timebegin_month'] . $event['timebegin_day'];
+				$formattedDateLabel = day_view_date_format($event['timebegin_day'], Day_of_Week_to_Text(Day_of_Week($event['timebegin_month'],$event['timebegin_day'],$event['timebegin_year'])),Month_to_Text($event['timebegin_month']),$event['timebegin_year']);
+				$eventDayTimeStamp = datetime2timestamp($event['timebegin_year'],$event['timebegin_month'],$event['timebegin_day'],12,0,"am");
+	
+				?>
+					<tr <?php if ($ievent == 0) { echo 'id="FirstDateRow"'; } ?>>
+						<td colspan="2" class="DateRow"><div <?php
+							if ( $todayTimeStamp == $eventDayTimeStamp ) {
+								echo 'id="TodayDateRow"';
+							}
+						?>><?php
+						
+						if (!empty($_SESSION["AUTH_SPONSORID"])) {
+							echo '<a href="addevent.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&timebegin_year='.$event['timebegin_year']."&timebegin_month=".$event['timebegin_month']."&timebegin_day=".$event['timebegin_day']."\" title=\"",lang('add_new_event'),"\">";
+	    			  echo '<img style="padding-right: 4px;" src="images/new.gif" height="16" width="16" alt="',lang('add_new_event'),'" border="0" align="left"></a>';
+						}
+						
+						echo '<a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=day&timebegin=', urlencode($eventDayTimeStamp), $queryStringExtension ,'">';
+						echo $formattedDateLabel;
+						
+						?></a></div></td>
+					</tr>
+				<?php
 			}
-    }
-    // "All Day" marker
-		else {
-		  if (!$previousWholeDay ) { echo lang('all_day'); }
-      $previousWholeDay = true;
-		}
-		
-		// End of Time Column
-		echo "</td>\n";
-		
-		// Start Data Column
-		echo '<td width="98%"';
-    if ( $EventHasPassed ) {
-		  echo ' class="DataColumn-Past"'; }
-		else {
-			echo ' class="DataColumn"'; }
-		
-		echo '><div class="EventLeftBar">';
-		echo '<b><a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=event&eventid=',$event['eventid'],'&timebegin=';
-		echo urlencode(datetime2timestamp($event_timebegin['year'],$event_timebegin['month'],$event_timebegin['day'],12,0,"am"));
-		echo '">',htmlentities($event['title']),"</a></b> ";
-		if ( !empty($event['location']) ) { echo " - ",htmlentities($event['location']); }
-		/*echo " -- <i>".htmlentities($event['category_name'])."</i>";*/
-		echo "<br>";
-		
-		if (!empty($event['description'])) {
-			if (strlen($event['description']) < 140 ) {
-			  echo htmlentities($event['description']);
-			} 
 			else {
-			  echo substr($event['description'],0,140);
-		    echo "... \n";
-    		echo '<a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=event&eventid=',$event['eventid'],'&timebegin=';
-				echo urlencode(datetime2timestamp($event_timebegin['year'],$event_timebegin['month'],$event_timebegin['day'],12,0,"am"));
-				echo '">more</a>';
-      }
-		  echo " \n";
-		}
-		else {
-  		echo "<br>\n";
-		}
-		echo "</div></td>\n";
-		// End Data Column
+				$firstDaysEvent = false;
+			}
+			
+			// Start of Event Row
+			echo '<tr valign="top" class="BorderTop">';
+			
+			// Start of Time Column
+			echo '<td width="1%" align="right" valign="top" nowrap" class="TimeColumn">&nbsp;';
 		
-		echo "</tr>\n";
-		// End of Event Row
+			// Time of the Event
+	    if ($event['wholedayevent']==0) {
+				echo timestring($event['timebegin_hour'],$event['timebegin_min'],$event['timebegin_ampm']);
+				if ( ! ($event['timeend_hour']==$day_end_h && $event['timeend_min']==59) ) {
+				  echo "<br><i>";
+				  echo timenumber2timelabel($event_timeend_num - $event_timebegin_num);
+				  echo "</i>";
+				}
+	    }
+	    // "All Day" marker
+			else {
+			  if (!$previousWholeDay ) { echo lang('all_day'); }
+	      $previousWholeDay = true;
+			}
+			
+			// End of Time Column
+			echo "</td>\n";
+			
+			// Start Data Column
+			echo '<td width="98%" class="DataColumn"><div class="EventLeftBar">';
+			echo '<b><a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=event&eventid=',$event['eventid'],'&timebegin=';
+			echo urlencode(datetime2timestamp($event_timebegin['year'],$event_timebegin['month'],$event_timebegin['day'],12,0,"am"));
+			echo '">',htmlentities($event['title']),"</a></b> ";
+			if ( !empty($event['location']) ) { echo " - ",htmlentities($event['location']); }
+			/*echo " -- <i>".htmlentities($event['category_name'])."</i>";*/
+			echo "<br>";
+			
+			if (!empty($event['description'])) {
+				if (strlen($event['description']) < 140 ) {
+				  echo htmlentities($event['description']);
+				} 
+				else {
+				  echo substr($event['description'],0,140);
+			    echo "... \n";
+	    		echo '<a href="main.php?calendarid='.urlencode($_SESSION["CALENDARID"]).'&view=event&eventid=',$event['eventid'],'&timebegin=';
+					echo urlencode(datetime2timestamp($event_timebegin['year'],$event_timebegin['month'],$event_timebegin['day'],12,0,"am"));
+					echo '">more</a>';
+	      }
+			  echo " \n";
+			}
+			else {
+	  		echo "<br>\n";
+			}
+			
+			echo "</div></td>\n";
+			// End Data Column
+			
+			echo "</tr>\n";
+			// End of Event Row
+		}
 
 		// read next event if one exists
 		$ievent++;
