@@ -1,5 +1,8 @@
 <?php
-  if (!defined("ALLOWINCLUDES")) { exit; } // prohibits direct calling of include files
+if (!defined("ALLOWINCLUDES")) { exit; } // prohibits direct calling of include files
+
+if (defined("SHOW_UPCOMING_TAB") && SHOW_UPCOMING_TAB) {
+
 ?>
 
 <!-- Start Upcoming Body -->
@@ -164,3 +167,7 @@
 ?>
 </table>
 <!-- End Day Body -->
+
+<?php
+} // end: if (SHOW_UPCOMING_TAB === TRUE)
+?>

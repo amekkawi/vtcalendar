@@ -14,6 +14,7 @@ $today['dow_text'] = Day_of_Week_Abbreviation(Day_of_Week($today['month'],$today
 // Otherwise, unset $view.
 if (isset($_GET['view'])) { setVar($view,$_GET['view'],'view'); } else { 
   if (!empty($_SESSION['view'])) { $view = $_SESSION['view']; }
+  elseif (defined("SHOW_UPCOMING_TAB") && SHOW_UPCOMING_TAB) { $view = "upcoming"; }
 	else { $view = "day"; } 
 }
 
