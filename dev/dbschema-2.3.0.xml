@@ -22,7 +22,7 @@
 <Table Name="vtcal_adminuser">
 	<Field Name="id" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 </Table>
 
@@ -31,9 +31,9 @@
 	<Field Name="userid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="sponsorid" Type="int" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="userid" SubPart=""/>
-		<KeyField Name="sponsorid" SubPart=""/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="userid"/>
+		<KeyField Name="sponsorid"/>
 	</PrimaryKey>
 </Table>
 
@@ -42,11 +42,11 @@
 	<Field Name="passhash" Type="varchar(75)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="cachedate" Type="timestamp" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 	<Key Name="Index_ID_MD5" Unique="false">
-		<KeyField Name="id" SubPart=""/>
-		<KeyField Name="passhash" SubPart=""/>
+		<KeyField Name="id"/>
+		<KeyField Name="passhash"/>
 	</Key>
 </Table>
 
@@ -67,7 +67,7 @@
 	<Field Name="viewauthrequired" Type="int" NotNull="false" AutoIncrement="false"/>
 	<Field Name="forwardeventdefault" Type="int" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 </Table>
 
@@ -75,8 +75,8 @@
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="userid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="userid" SubPart=""/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="userid"/>
 	</PrimaryKey>
 </Table>
 
@@ -85,7 +85,7 @@
 	<Field Name="id" Type="int" NotNull="true" AutoIncrement="true"/>
 	<Field Name="name" Type="text" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 </Table>
 
@@ -135,7 +135,7 @@
 	<Field Name="deleteborder" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="deletebg" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="calendarid" SubPart=""/>
+		<KeyField Name="calendarid"/>
 	</PrimaryKey>
 </Table>
 
@@ -164,8 +164,8 @@
 	<Field Name="showondefaultcal" Type="int" NotNull="false" AutoIncrement="false"/>
 	<Field Name="showincategory" Type="int" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 </Table>
 
@@ -190,8 +190,8 @@
 	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
 	<Field Name="repeatid" Type="varchar(13)" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 </Table>
 
@@ -204,10 +204,10 @@
 	<Field Name="recordchangedtime" Type="timestamp" NotNull="false" AutoIncrement="false"/>
 	<Field Name="recordchangeduser" Type="text" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 	<Key Name="indexCalendarID" Unique="false">
-		<KeyField Name="calendarid" SubPart=""/>
+		<KeyField Name="calendarid"/>
 	</Key>
 </Table>
 
@@ -217,14 +217,14 @@
 	<Field Name="searchdate" Type="date" NotNull="true" AutoIncrement="false"/>
 	<Field Name="count" Type="int" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="keyword" SubPart=""/>
-		<KeyField Name="searchdate" SubPart=""/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="keyword"/>
+		<KeyField Name="searchdate"/>
 	</PrimaryKey>
 	<Key Name="byDate" Unique="false">
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="searchdate" SubPart=""/>
-		<KeyField Name="keyword" SubPart=""/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="searchdate"/>
+		<KeyField Name="keyword"/>
 	</Key>
 </Table>
 
@@ -234,10 +234,10 @@
 	<Field Name="keyword" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
 	<Field Name="featuretext" Type="text" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 	<Key Name="indexCalendarID" Unique="false">
-		<KeyField Name="calendarid" SubPart=""/>
+		<KeyField Name="calendarid"/>
 	</Key>
 </Table>
 
@@ -247,11 +247,11 @@
 	<Field Name="keyword" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
 	<Field Name="alternative" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 	<Key Name="indexCalendarID" Unique="false">
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="keyword" SubPart=""/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="keyword"/>
 	</Key>
 </Table>
 
@@ -261,16 +261,16 @@
 	<Field Name="time" Type="varchar(19)" NotNull="false" AutoIncrement="false"/>
 	<Field Name="ip" Type="varchar(15)" NotNull="false" AutoIncrement="false"/>
 	<Field Name="numresults" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="keyword" Type="text" NotNull="false" AutoIncrement="false"/>
+	<Field Name="keyword" Type="varchar(255)" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 	<Key Name="indexCalendarID" Unique="false">
-		<KeyField Name="calendarid" SubPart=""/>
+		<KeyField Name="calendarid"/>
 	</Key>
 	<Key Name="indexKeyword" Unique="false">
-		<KeyField Name="calendarid" SubPart=""/>
-		<KeyField Name="keyword" SubPart="255"/>
+		<KeyField Name="calendarid"/>
+		<KeyField Name="keyword"/>
 	</Key>
 </Table>
 
@@ -282,10 +282,10 @@
 	<Field Name="email" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
 	<Field Name="admin" Type="int" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 	<Key Name="indexCalendarID" Unique="false">
-		<KeyField Name="calendarid" SubPart=""/>
+		<KeyField Name="calendarid"/>
 	</Key>
 </Table>
 
@@ -308,7 +308,7 @@
 	<Field Name="displayedsponsor" Type="text" NotNull="false" AutoIncrement="false"/>
 	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 </Table>
 
@@ -317,7 +317,7 @@
 	<Field Name="password" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="email" Type="varchar(255)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
-		<KeyField Name="id" SubPart=""/>
+		<KeyField Name="id"/>
 	</PrimaryKey>
 </Table>
 

@@ -45,8 +45,26 @@ $Submit_Upgrade = isset($_POST['Submit_Upgrade']) && $_POST['Submit_Upgrade'] !=
 
 if (isset($_POST['UpgradeSQL'])) $UpgradeSQL = $_POST['UpgradeSQL'];
 if (isset($_GET['Success'])) $Success = $_GET['Success'];
-if (isset($_GET['DSN'])) define("DATABASE", $_GET['DSN']);
-if (isset($_POST['DSN'])) define("DATABASE", $_POST['DSN']);
+
+if (isset($_POST['DBTYPE']) && preg_match("/^(mysql|postgres)$/", $_POST['DBTYPE'])) define("DBTYPE", $_POST['DBTYPE']);
+if (isset($_GET['DBTYPE']) && preg_match("/^(mysql|postgres)$/", $_GET['DBTYPE'])) define("DBTYPE", $_GET['DBTYPE']);
+
+if (isset($_POST['POSTGRESSCHEMA']) && $_POST['POSTGRESSCHEMA'] != '') define("POSTGRESSCHEMA", $_POST['POSTGRESSCHEMA']);
+if (isset($_GET['POSTGRESSCHEMA']) && $_GET['POSTGRESSCHEMA'] != '') define("POSTGRESSCHEMA", $_GET['POSTGRESSCHEMA']);
+
+if (isset($_POST['DSN']) && $_POST['DSN'] != '') define("DATABASE", $_POST['DSN']);
+if (isset($_GET['DSN']) && $_GET['DSN'] != '') define("DATABASE", $_GET['DSN']);
+
+// Flag if the all form fields have been submitted.
+$FormIsComplete = defined("DBTYPE") && defined("DATABASE") && defined("POSTGRESSCHEMA");
+
+// Set the field qualifier for SQL output
+if (defined("DBTYPE") && DBTYPE == 'postgres') {
+	define("FIELDQUALIFIER", '"');
+}
+else {
+	define("FIELDQUALIFIER", '`');
+}
 
 // Display the success screen if successful.
 if (isset($Success)) {
@@ -69,7 +87,7 @@ if (isset($Success)) {
 }
 
 // Display the preview screen if the DSN was submitted.
-elseif ($Submit_Preview && defined("DATABASE")) {
+elseif ($Submit_Preview && $FormIsComplete) {
 	?><h2>Upgrade Preview:</h2><?php
 	
 	$FinalSQL = "";
@@ -79,20 +97,29 @@ elseif ($Submit_Preview && defined("DATABASE")) {
 		echo "<div class='Error'><b>Error:</b> Could not connect to the database: " . $DBCONNECTION . "</div>";
 	}
 	else {
-	
-		$result =& DBquery("SELECT DATABASE() as SCHEMANAME");
-		if (is_string($result)) {
-			echo "<div class='Error'><b>Error:</b> Failed to determine schema name: " . $result . "</div>";
+		if (DBTYPE == 'postgres') {
+			define("SCHEMA", POSTGRESSCHEMA);
 		}
 		else {
-			$record =& $result->fetchRow(DB_FETCHMODE_ASSOC, 0);
-			define("SCHEMA", $record['SCHEMANAME']);
-			$result->free();
+			$result =& DBquery("SELECT DATABASE() as SCHEMANAME");
+			if (is_string($result)) {
+				echo "<div class='Error'><b>Error:</b> Failed to determine schema name: " . $result . "</div>";
+			}
+			else {
+				$record =& $result->fetchRow(DB_FETCHMODE_ASSOC, 0);
+				define("SCHEMA", $record["SCHEMANAME"]);
+				$result->free();
+			}
+		}
+		
+		if (defined("SCHEMA")) {
 			
 			// Get the current table data.
 			if (($CurrentTables = GetTables()) !== false) {
 				
 				?><p>The following is a preview of changes to the database that are needed.<br/>To apply any needed changes, proceed to the <a href="#Upgrade">Upgrade the Database</a> section at the bottom of this page.</p><?php
+				
+//				echo "<pre>"; var_dump($FinalTables); var_dump($CurrentTables); echo "</pre>"; exit;
 				
 				// Check the current table data vs the final table data.
 				$changes = CheckTables();
@@ -156,6 +183,7 @@ elseif ($Submit_Preview && defined("DATABASE")) {
 		
 				?><h2><a name="Upgrade"></a>Upgrade Database:</h2>
 				<form action="upgradedb.php" method="post" onsubmit="return verifyUpgrade();">
+				<input type="hidden" name="DBTYPE" value="<?php echo DBTYPE; ?>"/>
 				<input type="hidden" name="DSN" value="<?php echo DATABASE; ?>"/>
 				<blockquote><?php
 				
@@ -193,7 +221,7 @@ elseif ($Submit_Preview && defined("DATABASE")) {
 }
 
 // Upgrade the database if the DSN and SQL were submitted.
-elseif ($Submit_Upgrade && defined("DATABASE") && isset($UpgradeSQL)) {
+elseif ($Submit_Upgrade && $FormIsComplete && isset($UpgradeSQL)) {
 	?><h2>Upgrade Result:</h2><?php
 	
 	$DBCONNECTION =& DBOpen();
@@ -237,12 +265,59 @@ else {
 	
 	<h2>Enter the Database Connection String:</h2>
 	<blockquote>
+	<script type="text/javascript"><!-- // <![CDATA[
+	function ToggleBlocks() {
+		if (document.getElementById) {
+			var objDBTYPE = document.getElementById('DBTYPE');
+			var objPOSTGRESSCHEMA_Block = document.getElementById('POSTGRESSCHEMA_Block');
+			var objMySQLExample = document.getElementById('mysql_example');
+			var objPostgresExample = document.getElementById('postgres_example');
+			
+			if (objDBTYPE) {
+				if (objPOSTGRESSCHEMA_Block) {
+					objPOSTGRESSCHEMA_Block.style.display = (objDBTYPE.value == 'postgres' ? '' : 'none');
+				}
+				
+				if (objMySQLExample && objPostgresExample) {
+					if (objDBTYPE.value == 'mysql') {
+						objMySQLExample.style.display = '';
+						objPostgresExample.style.display = 'none';
+					}
+					else {
+						objMySQLExample.style.display = 'none';
+						objPostgresExample.style.display = '';
+					}
+				}
+			}
+		}
+	}
+	// ]]> -->
+	</script>
 	<form action="upgradedb.php" method="POST">
+		<p><b>Select Database Type:</b><br />
+			<select name="DBTYPE" id="DBTYPE" onchange="ToggleBlocks()" onclick="ToggleBlocks()">
+				<option value="" <?php if (!defined("DBTYPE")) echo "SELECTED"; ?>>(Select One)</option>
+				<option value="mysql" <?php if (defined("DBTYPE") && DBTYPE == 'mysql') echo "SELECTED"; ?>>MySQL</option>
+				<option value="postgres" <?php if (defined("DBTYPE") && DBTYPE == 'postgres') echo "SELECTED"; ?>>PostgreSQL</option>
+			</select>
+		</p>
+		
 		<p><b>Database Connection String:</b><br /> 
 	    	<input name="DSN" type="text" id="DSN" size="60" value="<?php if (defined("DATABASE")) echo DATABASE; ?>" style="width: 600px;" /><br/>
-	    	<i>Example: mysql://user:password@localhost/vtcalendar</i></p>
+	    	<i id="mysql_example">Syntax: mysql://user:password@host/database</i>
+	    	<i id="postgres_example">Syntax: pgsql://user:password@host/database</i></p>
+		
+		<p id="POSTGRESSCHEMA_Block"><b>Schema (PostgreSQL Only):</b><br /> 
+	    	<input name="POSTGRESSCHEMA" type="text" id="POSTGRESSCHEMA" size="60" value="<?php echo (defined("POSTGRESSCHEMA") ? POSTGRESSCHEMA : 'public'); ?>" style="width: 200px;" /><br/>
+	    	<i>Example: public</p>
+	    
 		<p><input type="submit" name="Submit_Preview" value="Preview Database Upgrades" /></p>
 	</form>
+	
+	<script type="text/javascript"><!-- // <![CDATA[
+	ToggleBlocks();
+	// ]]> -->
+	</script>
 	</blockquote>
 	<?php
 }
