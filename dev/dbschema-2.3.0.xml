@@ -52,19 +52,11 @@
 
 <Table Name="vtcal_calendar">
 	<Field Name="id" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="name" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="title" Type="varchar(50)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="header" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="footer" Type="text" NotNull="false" AutoIncrement="false"/>
-	<!--<Field Name="bgcolor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="maincolor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="todaycolor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="pastcolor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="futurecolor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="textcolor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="linkcolor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="gridcolor" Type="text" NotNull="false" AutoIncrement="false"/>-->
-	<Field Name="viewauthrequired" Type="int" NotNull="false" AutoIncrement="false"/>
+	<Field Name="name" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="title" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="header" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="footer" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="viewauthrequired" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="forwardeventdefault" Type="int" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
@@ -108,7 +100,7 @@
 	<Field Name="h3" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="title" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="tabgrayed_bg" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="tabgrayed_text" Type="varchar(7)" NotNull="false" AutoIncrement="false"/>
+	<Field Name="tabgrayed_text" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="filternotice_bg" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="filternotice_font" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="filternotice_fontfaded" Type="varchar(7)" NotNull="true" AutoIncrement="false"/>
@@ -142,27 +134,27 @@
 <Table Name="vtcal_event">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="varchar(18)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="timebegin" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="timeend" Type="text" NotNull="false" AutoIncrement="false"/>
+	<Field Name="timebegin" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="timeend" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="sponsorid" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="title" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="wholedayevent" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="categoryid" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="description" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="location" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="price" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_name" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_phone" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_email" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangedtime" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangeduser" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="approved" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="rejectreason" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="displayedsponsor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="repeatid" Type="varchar(13)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="showondefaultcal" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="showincategory" Type="int" NotNull="false" AutoIncrement="false"/>
+	<Field Name="wholedayevent" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="categoryid" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="description" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="location" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="price" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_name" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_phone" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_email" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangedtime" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="approved" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="rejectreason" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsor" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="repeatid" Type="varchar(13)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="showondefaultcal" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="showincategory" Type="int" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="calendarid"/>
 		<KeyField Name="id"/>
@@ -172,23 +164,23 @@
 <Table Name="vtcal_event_public">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="varchar(18)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="timebegin" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="timeend" Type="text" NotNull="false" AutoIncrement="false"/>
+	<Field Name="timebegin" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="timeend" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="sponsorid" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="title" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="wholedayevent" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="categoryid" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="description" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="location" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="price" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_name" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_phone" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_email" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangedtime" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangeduser" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="displayedsponsor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="repeatid" Type="varchar(13)" NotNull="false" AutoIncrement="false"/>
+	<Field Name="wholedayevent" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="categoryid" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="description" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="location" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="price" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_name" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_phone" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_email" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangedtime" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsor" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="repeatid" Type="varchar(13)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="calendarid"/>
 		<KeyField Name="id"/>
@@ -198,11 +190,11 @@
 <Table Name="vtcal_event_repeat">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="varchar(13)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="repeatdef" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="startdate" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="enddate" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangedtime" Type="timestamp" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangeduser" Type="text" NotNull="false" AutoIncrement="false"/>
+	<Field Name="repeatdef" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="startdate" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="enddate" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangedtime" Type="timestamp" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
@@ -231,8 +223,8 @@
 <Table Name="vtcal_searchfeatured">
 	<Field Name="id" Type="int" NotNull="true" AutoIncrement="true"/>
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="keyword" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="featuretext" Type="text" NotNull="false" AutoIncrement="false"/>
+	<Field Name="keyword" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="featuretext" Type="text" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
@@ -244,8 +236,8 @@
 <Table Name="vtcal_searchkeyword">
 	<Field Name="id" Type="int" NotNull="true" AutoIncrement="true"/>
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="keyword" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="alternative" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
+	<Field Name="keyword" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="alternative" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
@@ -258,10 +250,10 @@
 <Table Name="vtcal_searchlog">
 	<Field Name="id" Type="int" NotNull="true" AutoIncrement="true"/>
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="time" Type="varchar(19)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="ip" Type="varchar(15)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="numresults" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="keyword" Type="varchar(255)" NotNull="false" AutoIncrement="false"/>
+	<Field Name="time" Type="varchar(19)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="ip" Type="varchar(15)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="numresults" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="keyword" Type="varchar(255)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
@@ -278,9 +270,9 @@
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="int" NotNull="true" AutoIncrement="true"/>
 	<Field Name="name" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="url" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="email" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="admin" Type="int" NotNull="false" AutoIncrement="false"/>
+	<Field Name="url" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="email" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="admin" Type="int" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
@@ -295,18 +287,18 @@
 	<Field Name="name" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="sponsorid" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="title" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="wholedayevent" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="categoryid" Type="int" NotNull="false" AutoIncrement="false"/>
-	<Field Name="description" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="location" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="price" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_name" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_phone" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="contact_email" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangedtime" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="recordchangeduser" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="displayedsponsor" Type="text" NotNull="false" AutoIncrement="false"/>
-	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="false" AutoIncrement="false"/>
+	<Field Name="wholedayevent" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="categoryid" Type="int" NotNull="true" AutoIncrement="false"/>
+	<Field Name="description" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="location" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="price" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_name" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_phone" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="contact_email" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangedtime" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsor" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
