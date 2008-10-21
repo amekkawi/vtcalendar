@@ -69,6 +69,27 @@
             </table>
          </td>
       </tr>
+      <tr>
+         <td class="VariableName" nowrap="nowrap" valign="top">
+            <b>Max Year Ahead for New Events:</b>
+         </td>
+         <td class="VariableBody">
+            <table class="ContentTable" width="100%" border="0" cellspacing="0" cellpadding="6">
+               <tr>
+                  <td class="DataField">
+                     <div class="DataFieldInput"><input type="text" id="Input_ALLOWED_YEARS_AHEAD" name="ALLOWED_YEARS_AHEAD" value="<?php echo htmlentities($GLOBALS['Form_ALLOWED_YEARS_AHEAD']); ?>" size="60"/> <span id="DataFieldInputExtra_ALLOWED_YEARS_AHEAD"> </span>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="Comment">
+                     <div class="CommentLine">The number of years into the future that the calendar will allow users to create events for.</div>
+                     <div class="CommentLine">For example, if the current year is 2000 then a value of '3' will allow users to create events up to 2003.</div>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
    </table>
 </blockquote>
 <h2>Database:</h2>
@@ -93,6 +114,33 @@
                   <td class="Comment">
                      <div class="CommentLine">This is the database connection string used by the PEAR library.</div>
                      <div class="CommentLine">It has the format: "mysql://user:password@host/databasename" or "pgsql://user:password@host/databasename"</div>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td class="VariableName" nowrap="nowrap" valign="top">
+            <b>Table Prefix:</b>
+         </td>
+         <td class="VariableBody">
+            <table class="ContentTable" width="100%" border="0" cellspacing="0" cellpadding="6">
+               <tr>
+                  <td class="DataField">
+                     <div class="DataFieldInput"><input type="text" id="Input_TABLEPREFIX" name="TABLEPREFIX" value="<?php echo htmlentities($GLOBALS['Form_TABLEPREFIX']); ?>" size="60"/> <span id="DataFieldInputExtra_TABLEPREFIX"> </span>
+                     </div>
+                     <div class="Example">
+                        <i>Example: public</i>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="Comment">
+                     <div class="CommentLine">In some databases (such as PostgreSQL) you may have multiple sets of VTCalendar tables within the same database, but in different schemas.</div>
+                     <div class="CommentLine">If this is the case for you, enter the name of the schema here.</div>
+                     <div class="CommentLine">It will be prefixed to the table name like so: TABLEPREFIX.vtcal_calendars.</div>
+                     <div class="CommentLine">If necessary include quotes. Use a backtick (`) for MySQL or double quotes (") for PostgreSQL.</div>
+                     <div class="CommentLine">Note: If specified, the table prefix MUST end with a period.</div>
                   </td>
                </tr>
             </table>
@@ -1338,6 +1386,126 @@
                      <div class="CommentLine">Whether or not events in month view on days that are not actually part of the current month should be shown.</div>
                      <div class="CommentLine">For example, if the first day of the month starts on a Wednesday, then Sunday-Tuesday are from the previous month.</div>
                      <div class="CommentLine">Values must be true or false.</div>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td class="VariableName" nowrap="nowrap" valign="top">
+            <b>Combined 'Jump To' Drop-Down:</b>
+         </td>
+         <td class="VariableBody">
+            <table class="ContentTable" width="100%" border="0" cellspacing="0" cellpadding="6">
+               <tr>
+                  <td class="DataField">
+                     <div class="DataFieldInput"><input type="checkbox" id="CheckBox_COMBINED_JUMPTO" name="COMBINED_JUMPTO" value="true"
+										<?php if ($GLOBALS['Form_COMBINED_JUMPTO'] == 'true') echo ' checked="checked"'; ?>/><label for="CheckBox_COMBINED_JUMPTO"> Yes</label>
+                        <span id="DataFieldInputExtra_COMBINED_JUMPTO"> </span>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="Comment">
+                     <div class="CommentLine">Whether or not the 'jump to' drop-down in the column will be combined into a single drop-down box or not.</div>
+                     <div class="CommentLine">When set to true, the list will contain all possible month/years combinations for the next X years (where X is ALLOWED_YEARS_AHEAD).</div>
+                     <div class="CommentLine">Only the last 3 months will be included in this list.</div>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td class="VariableName" nowrap="nowrap" valign="top">
+            <b>Include Static Pre-Header HTML:</b>
+         </td>
+         <td class="VariableBody">
+            <table class="ContentTable" width="100%" border="0" cellspacing="0" cellpadding="6">
+               <tr>
+                  <td class="DataField">
+                     <div class="DataFieldInput"><input type="checkbox" id="CheckBox_INCLUDE_STATIC_PRE_HEADER" name="INCLUDE_STATIC_PRE_HEADER" value="true"
+										<?php if ($GLOBALS['Form_INCLUDE_STATIC_PRE_HEADER'] == 'true') echo ' checked="checked"'; ?>/><label for="CheckBox_INCLUDE_STATIC_PRE_HEADER"> Yes</label>
+                        <span id="DataFieldInputExtra_INCLUDE_STATIC_PRE_HEADER"> </span>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="Comment">
+                     <div class="CommentLine">Include the file located at ./static-includes/subcalendar-pre-header.txt before the calendar header HTML for all calendars.</div>
+                     <div class="CommentLine">This allows you to enforce a standard header for all calendars.</div>
+                     <div class="CommentLine">This does not affect the default calendar.</div>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td class="VariableName" nowrap="nowrap" valign="top">
+            <b>Include Static Post-Header HTML:</b>
+         </td>
+         <td class="VariableBody">
+            <table class="ContentTable" width="100%" border="0" cellspacing="0" cellpadding="6">
+               <tr>
+                  <td class="DataField">
+                     <div class="DataFieldInput"><input type="checkbox" id="CheckBox_INCLUDE_STATIC_POST_HEADER" name="INCLUDE_STATIC_POST_HEADER" value="true"
+										<?php if ($GLOBALS['Form_INCLUDE_STATIC_POST_HEADER'] == 'true') echo ' checked="checked"'; ?>/><label for="CheckBox_INCLUDE_STATIC_POST_HEADER"> Yes</label>
+                        <span id="DataFieldInputExtra_INCLUDE_STATIC_POST_HEADER"> </span>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="Comment">
+                     <div class="CommentLine">Include the file located at ./static-includes/subcalendar-post-header.txt after the calendar header HTML for all calendars.</div>
+                     <div class="CommentLine">This allows you to enforce a standard header for all calendars.</div>
+                     <div class="CommentLine">This does not affect the default calendar.</div>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td class="VariableName" nowrap="nowrap" valign="top">
+            <b>Include Static Pre-Footer HTML:</b>
+         </td>
+         <td class="VariableBody">
+            <table class="ContentTable" width="100%" border="0" cellspacing="0" cellpadding="6">
+               <tr>
+                  <td class="DataField">
+                     <div class="DataFieldInput"><input type="checkbox" id="CheckBox_INCLUDE_STATIC_PRE_FOOTER" name="INCLUDE_STATIC_PRE_FOOTER" value="true"
+										<?php if ($GLOBALS['Form_INCLUDE_STATIC_PRE_FOOTER'] == 'true') echo ' checked="checked"'; ?>/><label for="CheckBox_INCLUDE_STATIC_PRE_FOOTER"> Yes</label>
+                        <span id="DataFieldInputExtra_INCLUDE_STATIC_PRE_FOOTER"> </span>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="Comment">
+                     <div class="CommentLine">Include the file located at ./static-includes/subcalendar-pre-footer.txt before the calendar footer HTML for all calendars.</div>
+                     <div class="CommentLine">This allows you to enforce a standard footer for all calendars.</div>
+                     <div class="CommentLine">This does not affect the default calendar.</div>
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+      <tr>
+         <td class="VariableName" nowrap="nowrap" valign="top">
+            <b>Include Static Post-Footer HTML:</b>
+         </td>
+         <td class="VariableBody">
+            <table class="ContentTable" width="100%" border="0" cellspacing="0" cellpadding="6">
+               <tr>
+                  <td class="DataField">
+                     <div class="DataFieldInput"><input type="checkbox" id="CheckBox_INCLUDE_STATIC_POST_FOOTER" name="INCLUDE_STATIC_POST_FOOTER" value="true"
+										<?php if ($GLOBALS['Form_INCLUDE_STATIC_POST_FOOTER'] == 'true') echo ' checked="checked"'; ?>/><label for="CheckBox_INCLUDE_STATIC_POST_FOOTER"> Yes</label>
+                        <span id="DataFieldInputExtra_INCLUDE_STATIC_POST_FOOTER"> </span>
+                     </div>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="Comment">
+                     <div class="CommentLine">Include the file located at ./static-includes/subcalendar-post-footer.txt after the calendar footer HTML for all calendars.</div>
+                     <div class="CommentLine">This allows you to enforce a standard footer for all calendars.</div>
+                     <div class="CommentLine">This does not affect the default calendar.</div>
                   </td>
                </tr>
             </table>

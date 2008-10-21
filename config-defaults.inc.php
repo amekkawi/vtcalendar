@@ -25,6 +25,11 @@ if (!defined("TITLESUFFIX")) define("TITLESUFFIX", "");
 // Language used (refers to language file in directory /languages)
 if (!defined("LANGUAGE")) define("LANGUAGE", 'en');
 
+// Config: Max Year Ahead for New Events
+// The number of years into the future that the calendar will allow users to create events for.
+// For example, if the current year is 2000 then a value of '3' will allow users to create events up to 2003.
+if (!defined("ALLOWED_YEARS_AHEAD")) define("ALLOWED_YEARS_AHEAD", 3);
+
 // =====================================
 // Database
 // =====================================
@@ -34,6 +39,15 @@ if (!defined("LANGUAGE")) define("LANGUAGE", 'en');
 // This is the database connection string used by the PEAR library.
 // It has the format: "mysql://user:password@host/databasename" or "pgsql://user:password@host/databasename"
 if (!defined("DATABASE")) define("DATABASE", "");
+
+// Config: Table Prefix
+// Example: public
+// In some databases (such as PostgreSQL) you may have multiple sets of VTCalendar tables within the same database, but in different schemas.
+// If this is the case for you, enter the name of the schema here.
+// It will be prefixed to the table name like so: TABLEPREFIX.vtcal_calendars.
+// If necessary include quotes. Use a backtick (`) for MySQL or double quotes (") for PostgreSQL.
+// Note: If specified, the table prefix MUST end with a period.
+if (!defined("TABLEPREFIX")) define("TABLEPREFIX", "");
 
 // Config: SQL Log File
 // Example: /var/log/vtcalendarsql.log
@@ -193,6 +207,36 @@ if (!defined("MAX_UPCOMING_EVENTS")) define("MAX_UPCOMING_EVENTS", 75);
 // Values must be true or false.
 if (!defined("SHOW_MONTH_OVERLAP")) define("SHOW_MONTH_OVERLAP", true);
 
+// Config: Combined 'Jump To' Drop-Down
+// Whether or not the 'jump to' drop-down in the column will be combined into a single drop-down box or not.
+// When set to true, the list will contain all possible month/years combinations for the next X years (where X is ALLOWED_YEARS_AHEAD).
+// Only the last 3 months will be included in this list.
+if (!defined("COMBINED_JUMPTO")) define("COMBINED_JUMPTO", true);
+
+// Config: Include Static Pre-Header HTML
+// Include the file located at ./static-includes/subcalendar-pre-header.txt before the calendar header HTML for all calendars.
+// This allows you to enforce a standard header for all calendars.
+// This does not affect the default calendar.
+if (!defined("INCLUDE_STATIC_PRE_HEADER")) define("INCLUDE_STATIC_PRE_HEADER", false);
+
+// Config: Include Static Post-Header HTML
+// Include the file located at ./static-includes/subcalendar-post-header.txt after the calendar header HTML for all calendars.
+// This allows you to enforce a standard header for all calendars.
+// This does not affect the default calendar.
+if (!defined("INCLUDE_STATIC_POST_HEADER")) define("INCLUDE_STATIC_POST_HEADER", false);
+
+// Config: Include Static Pre-Footer HTML
+// Include the file located at ./static-includes/subcalendar-pre-footer.txt before the calendar footer HTML for all calendars.
+// This allows you to enforce a standard footer for all calendars.
+// This does not affect the default calendar.
+if (!defined("INCLUDE_STATIC_PRE_FOOTER")) define("INCLUDE_STATIC_PRE_FOOTER", false);
+
+// Config: Include Static Post-Footer HTML
+// Include the file located at ./static-includes/subcalendar-post-footer.txt after the calendar footer HTML for all calendars.
+// This allows you to enforce a standard footer for all calendars.
+// This does not affect the default calendar.
+if (!defined("INCLUDE_STATIC_POST_FOOTER")) define("INCLUDE_STATIC_POST_FOOTER", false);
+
 // =====================================
 // Cache
 // =====================================
@@ -268,13 +312,6 @@ if (!defined("EMAIL_SMTP_TIMEOUT")) define("EMAIL_SMTP_TIMEOUT", 0);
 
 // END GENERATED
 
-define("ALLOWED_YEARS_AHEAD", 3);
-
-define("INCLUDE_STATIC_PRE_HEADER", false);
-define("INCLUDE_STATIC_POST_HEADER", false);
-define("INCLUDE_STATIC_PRE_FOOTER", false);
-define("INCLUDE_STATIC_POST_FOOTER", false);
-
 // TODO: Disabled feature.
 define("AUTH_HTTP_CACHE", false);
 define("AUTH_HTTP_CACHE_EXPIRATIONDAYS", 4);
@@ -296,16 +333,9 @@ if (TIMEZONE != '') {
 
 // ---------- The following functions allow you to customize processing based on your database -------
 
-/*// escapes a value to make it safe for a SQL query
-if (!function_exists('sqlescape')) {
-	function sqlescape($value) {
-	  if (preg_match("/^pgsql/",DATABASE)) {
-		  return pg_escape_string($value);
-		}
-		else {
-			return mysql_escape_string($value);
-		}
-	}
+// Escapes a value to make it safe for a SQL query
+/*function sqlescape($value) {
+
 }*/
 
 // --------------- The following functions allow you to customize the date format display ------------

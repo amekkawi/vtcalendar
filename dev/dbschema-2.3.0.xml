@@ -37,7 +37,7 @@
 	</PrimaryKey>
 </Table>
 
-<Table Name="vtcal_auth_httpcache">
+<!--<Table Name="vtcal_auth_httpcache">
 	<Field Name="id" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="passhash" Type="varchar(75)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="cachedate" Type="timestamp" NotNull="true" AutoIncrement="false"/>
@@ -48,7 +48,7 @@
 		<KeyField Name="id"/>
 		<KeyField Name="passhash"/>
 	</Key>
-</Table>
+</Table>-->
 
 <Table Name="vtcal_calendar">
 	<Field Name="id" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
@@ -75,7 +75,7 @@
 <Table Name="vtcal_category">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="int" NotNull="true" AutoIncrement="true"/>
-	<Field Name="name" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="name" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
@@ -134,8 +134,8 @@
 <Table Name="vtcal_event">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="varchar(18)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="timebegin" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="timeend" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="timebegin" Type="varchar(19)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="timeend" Type="varchar(19)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="sponsorid" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="title" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="wholedayevent" Type="int" NotNull="true" AutoIncrement="false"/>
@@ -150,9 +150,9 @@
 	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="approved" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="rejectreason" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="displayedsponsor" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsor" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="repeatid" Type="varchar(13)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="repeatid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="showondefaultcal" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="showincategory" Type="int" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
@@ -164,8 +164,8 @@
 <Table Name="vtcal_event_public">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="varchar(18)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="timebegin" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="timeend" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="timebegin" Type="varchar(19)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="timeend" Type="varchar(19)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="sponsorid" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="title" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="wholedayevent" Type="int" NotNull="true" AutoIncrement="false"/>
@@ -178,21 +178,35 @@
 	<Field Name="contact_email" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="recordchangedtime" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="displayedsponsor" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsor" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="repeatid" Type="varchar(13)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="repeatid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="calendarid"/>
 		<KeyField Name="id"/>
 	</PrimaryKey>
+	<Key Name="indexByDate" Unique="false">
+		<KeyField Name="calendarid"/>
+		<KeyField Name="timebegin"/>
+		<KeyField Name="timeend"/>
+		<KeyField Name="categoryid"/>
+	</Key>
+	<Key Name="indexByCategory" Unique="false">
+		<KeyField Name="calendarid"/>
+		<KeyField Name="categoryid"/>
+	</Key>
+	<Key Name="indexBySponsor" Unique="false">
+		<KeyField Name="calendarid"/>
+		<KeyField Name="sponsorid"/>
+	</Key>
 </Table>
 
 <Table Name="vtcal_event_repeat">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="id" Type="varchar(13)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="id" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="repeatdef" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="startdate" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="enddate" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="startdate" Type="varchar(19)" NotNull="true" AutoIncrement="false"/>
+	<Field Name="enddate" Type="varchar(19)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="recordchangedtime" Type="timestamp" NotNull="true" AutoIncrement="false"/>
 	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
@@ -228,8 +242,9 @@
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
-	<Key Name="indexCalendarID" Unique="false">
+	<Key Name="indexKeyword" Unique="false">
 		<KeyField Name="calendarid"/>
+		<KeyField Name="keyword"/>
 	</Key>
 </Table>
 
@@ -241,7 +256,7 @@
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
-	<Key Name="indexCalendarID" Unique="false">
+	<Key Name="indexKeyword" Unique="false">
 		<KeyField Name="calendarid"/>
 		<KeyField Name="keyword"/>
 	</Key>
@@ -257,9 +272,6 @@
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
-	<Key Name="indexCalendarID" Unique="false">
-		<KeyField Name="calendarid"/>
-	</Key>
 	<Key Name="indexKeyword" Unique="false">
 		<KeyField Name="calendarid"/>
 		<KeyField Name="keyword"/>
@@ -276,15 +288,16 @@
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
-	<Key Name="indexCalendarID" Unique="false">
+	<Key Name="indexByCalendar" Unique="false">
 		<KeyField Name="calendarid"/>
+		<KeyField Name="id"/>
 	</Key>
 </Table>
 
 <Table Name="vtcal_template">
 	<Field Name="calendarid" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="id" Type="int" NotNull="true" AutoIncrement="true"/>
-	<Field Name="name" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="name" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="sponsorid" Type="int" NotNull="true" AutoIncrement="false"/>
 	<Field Name="title" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="wholedayevent" Type="int" NotNull="true" AutoIncrement="false"/>
@@ -297,7 +310,7 @@
 	<Field Name="contact_email" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="recordchangedtime" Type="text" NotNull="true" AutoIncrement="false"/>
 	<Field Name="recordchangeduser" Type="text" NotNull="true" AutoIncrement="false"/>
-	<Field Name="displayedsponsor" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="displayedsponsor" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="displayedsponsorurl" Type="varchar(100)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
@@ -306,11 +319,15 @@
 
 <Table Name="vtcal_user">
 	<Field Name="id" Type="varchar(50)" NotNull="true" AutoIncrement="false"/>
-	<Field Name="password" Type="text" NotNull="true" AutoIncrement="false"/>
+	<Field Name="password" Type="varchar(255)" NotNull="true" AutoIncrement="false"/>
 	<Field Name="email" Type="varchar(255)" NotNull="true" AutoIncrement="false"/>
 	<PrimaryKey>
 		<KeyField Name="id"/>
 	</PrimaryKey>
+	<Key Name="indexPassLookup" Unique="false">
+		<KeyField Name="password"/>
+		<KeyField Name="id"/>
+	</Key>
 </Table>
 
 </DBSchema>

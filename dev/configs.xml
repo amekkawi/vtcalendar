@@ -19,6 +19,13 @@
                 <Line>Language used (refers to language file in directory /languages)</Line>
             </Comment>
         </Config>
+    	<Config Label="Max Year Ahead for New Events" Variable="ALLOWED_YEARS_AHEAD" Type="number">
+    		<Default>3</Default>
+    		<Comment>
+    			<Line>The number of years into the future that the calendar will allow users to create events for.</Line>
+    			<Line>For example, if the current year is 2000 then a value of '3' will allow users to create events up to 2003.</Line>
+    		</Comment>
+    	</Config>
     </Section>
     <Section Label="Database">
     	<Config Label="Database Connection String" Variable="DATABASE" Type="string" Required="true">
@@ -27,6 +34,16 @@
                 <Line>This is the database connection string used by the PEAR library.</Line>
                 <Line>It has the format: "mysql://user:password@host/databasename" or "pgsql://user:password@host/databasename"</Line>
             </Comment>
+    	</Config>
+    	<Config Label="Table Prefix" Variable="TABLEPREFIX" Type="string" Required="false">
+    		<Example>public</Example>
+    		<Comment>
+    			<Line>In some databases (such as PostgreSQL) you may have multiple sets of VTCalendar tables within the same database, but in different schemas.</Line>
+    			<Line>If this is the case for you, enter the name of the schema here.</Line>
+    			<Line>It will be prefixed to the table name like so: TABLEPREFIX.vtcal_calendars.</Line>
+    			<Line>If necessary include quotes. Use a backtick (`) for MySQL or double quotes (") for PostgreSQL.</Line>
+    			<Line>Note: If specified, the table prefix MUST end with a period.</Line>
+    		</Comment>
     	</Config>
         <Config Label="SQL Log File" Variable="SQLLOGFILE" Type="string">
             <Example>/var/log/vtcalendarsql.log</Example>
@@ -832,6 +849,46 @@
                 <Line>Values must be true or false.</Line>
             </Comment>
         </Config>
+    	<Config Label="Combined 'Jump To' Drop-Down" Variable="COMBINED_JUMPTO" Type="boolean">
+    		<Default>true</Default>
+    		<Comment>
+    			<Line>Whether or not the 'jump to' drop-down in the column will be combined into a single drop-down box or not.</Line>
+    			<Line>When set to true, the list will contain all possible month/years combinations for the next X years (where X is ALLOWED_YEARS_AHEAD).</Line>
+    			<Line>Only the last 3 months will be included in this list.</Line>
+    		</Comment>
+    	</Config>
+    	<Config Label="Include Static Pre-Header HTML" Variable="INCLUDE_STATIC_PRE_HEADER" Type="boolean">
+    		<Default>false</Default>
+    		<Comment>
+    			<Line>Include the file located at ./static-includes/subcalendar-pre-header.txt before the calendar header HTML for all calendars.</Line>
+    			<Line>This allows you to enforce a standard header for all calendars.</Line>
+    			<Line>This does not affect the default calendar.</Line>
+    		</Comment>
+    	</Config>
+    	<Config Label="Include Static Post-Header HTML" Variable="INCLUDE_STATIC_POST_HEADER" Type="boolean">
+    		<Default>false</Default>
+    		<Comment>
+    			<Line>Include the file located at ./static-includes/subcalendar-post-header.txt after the calendar header HTML for all calendars.</Line>
+    			<Line>This allows you to enforce a standard header for all calendars.</Line>
+    			<Line>This does not affect the default calendar.</Line>
+    		</Comment>
+    	</Config>
+    	<Config Label="Include Static Pre-Footer HTML" Variable="INCLUDE_STATIC_PRE_FOOTER" Type="boolean">
+    		<Default>false</Default>
+    		<Comment>
+    			<Line>Include the file located at ./static-includes/subcalendar-pre-footer.txt before the calendar footer HTML for all calendars.</Line>
+    			<Line>This allows you to enforce a standard footer for all calendars.</Line>
+    			<Line>This does not affect the default calendar.</Line>
+    		</Comment>
+    	</Config>
+    	<Config Label="Include Static Post-Footer HTML" Variable="INCLUDE_STATIC_POST_FOOTER" Type="boolean">
+    		<Default>false</Default>
+    		<Comment>
+    			<Line>Include the file located at ./static-includes/subcalendar-post-footer.txt after the calendar footer HTML for all calendars.</Line>
+    			<Line>This allows you to enforce a standard footer for all calendars.</Line>
+    			<Line>This does not affect the default calendar.</Line>
+    		</Comment>
+    	</Config>
     </Section>
     <Section Label="Cache">
     	<!--<Config Label="HTTP Authentication Cache" Variable="AUTH_HTTP_CACHE" Type="boolean">
