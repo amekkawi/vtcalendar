@@ -4,7 +4,7 @@ if (!defined("ALLOWINCLUDES")) { exit; } // prohibits direct calling of include 
 $ievent = 0;
 
 // read all events for this week from the DB
-$query = "SELECT e.id AS eventid,e.timebegin,e.timeend,e.sponsorid,e.title,e.location,e.wholedayevent,e.categoryid,c.id,c.name AS category_name FROM vtcal_event_public e, vtcal_category c WHERE e.calendarid='".sqlescape($_SESSION['CALENDAR_ID'])."' AND c.calendarid='".sqlescape($_SESSION['CALENDAR_ID'])."' AND e.categoryid = c.id AND e.timebegin >= '".sqlescape($weekfrom['timestamp'])."' AND e.timeend <= '".sqlescape($weekto['timestamp'])."'";
+$query = "SELECT e.id AS eventid,e.timebegin,e.timeend,e.sponsorid,e.title,e.location,e.wholedayevent,e.categoryid,c.id,c.name AS category_name FROM ".TABLEPREFIX."vtcal_event_public e, ".TABLEPREFIX."vtcal_category c WHERE e.calendarid='".sqlescape($_SESSION['CALENDAR_ID'])."' AND c.calendarid='".sqlescape($_SESSION['CALENDAR_ID'])."' AND e.categoryid = c.id AND e.timebegin >= '".sqlescape($weekfrom['timestamp'])."' AND e.timeend <= '".sqlescape($weekto['timestamp'])."'";
 if ($sponsorid != "all")  { $query.= " AND (e.sponsorid='".sqlescape($sponsorid)."')"; }
 
 if ( isset($CategoryFilter) && count($CategoryFilter) > 0 ) {
@@ -54,7 +54,7 @@ else {
 		echo '<a href="main.php?calendarid='.urlencode($_SESSION['CALENDAR_ID']).'&view=day&timebegin=', urlencode(datetime2timestamp($iday['year'],$iday['month'],$iday['day'],12,0,"am")), $queryStringExtension ,'">' . week_header_date_format($iday['day'],Month_to_Text($iday['month']),0,3) . "</a></b></div>";
 
 		if (!empty($_SESSION["AUTH_SPONSORID"])) { // display "add event" icon
-			echo '<div style="padding-top: 3px;"><a href="addevent.php?calendarid='.urlencode($_SESSION['CALENDAR_ID']).'&timebegin_year='.$iday['year']."&timebegin_month=".$iday['month']."&timebegin_day=".$iday['day']."\" title=\"",lang('add_new_event'),"\">";
+			echo '<div style="padding-top: 3px;" class="NoPrint"><a href="addevent.php?calendarid='.urlencode($_SESSION['CALENDAR_ID']).'&timebegin_year='.$iday['year']."&timebegin_month=".$iday['month']."&timebegin_day=".$iday['day']."\" title=\"",lang('add_new_event'),"\">";
 			echo '<img src="images/new.gif" height="16" width="16" alt="',lang('add_new_event'),'" border="0"></a></div>';
 		}
 

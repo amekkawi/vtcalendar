@@ -9,7 +9,7 @@ if (SHOW_UPCOMING_TAB) {
 	
 	// read all events for this week from the DB
 	// TODO: Should only show next 365 days worth of events.
-	$query = "SELECT e.id AS eventid, e.timebegin, e.timeend, e.sponsorid, e.title, e.location, e.description, e.wholedayevent, e.categoryid, c.id, c.name AS category_name FROM vtcal_event_public e, vtcal_category c ";
+	$query = "SELECT e.id AS eventid, e.timebegin, e.timeend, e.sponsorid, e.title, e.location, e.description, e.wholedayevent, e.categoryid, c.id, c.name AS category_name FROM ".TABLEPREFIX."vtcal_event_public e, ".TABLEPREFIX."vtcal_category c ";
 	$query.= "WHERE e.calendarid='".sqlescape($_SESSION['CALENDAR_ID'])."' AND c.calendarid='".sqlescape($_SESSION['CALENDAR_ID'])."' AND e.categoryid = c.id AND e.timeend > '".sqlescape($todayTimeStamp)."'";
 	
 	// Filter by sponsor ID if one was specified.
@@ -92,7 +92,7 @@ if (SHOW_UPCOMING_TAB) {
 							?>><?php
 							
 							if (!empty($_SESSION["AUTH_SPONSORID"])) {
-								echo '<a href="addevent.php?calendarid='.urlencode($_SESSION['CALENDAR_ID']).'&timebegin_year='.$event['timebegin_year']."&timebegin_month=".$event['timebegin_month']."&timebegin_day=".$event['timebegin_day']."\" title=\"",lang('add_new_event'),"\">";
+								echo '<a class="NoPrint" href="addevent.php?calendarid='.urlencode($_SESSION['CALENDAR_ID']).'&timebegin_year='.$event['timebegin_year']."&timebegin_month=".$event['timebegin_month']."&timebegin_day=".$event['timebegin_day']."\" title=\"",lang('add_new_event'),"\">";
 								echo '<img style="padding-right: 4px;" src="images/new.gif" height="16" width="16" alt="',lang('add_new_event'),'" border="0" align="left"></a>';
 							}
 							
