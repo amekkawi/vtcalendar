@@ -3,11 +3,14 @@
 	<xsl:output method="text" omit-xml-declaration="yes"/>
 	
 	<xsl:template match="/">
+		<xsl:text>&lt;?php&#10;</xsl:text>
 		<xsl:apply-templates select="DBSchema/Table/*"/>
+		<xsl:text>?&gt;&#10;</xsl:text>
 	</xsl:template>
 	
 	<xsl:template match="Field">
 		<xsl:text>$FinalTables</xsl:text>['<xsl:value-of select="../@Name"/>']['Fields']['<xsl:value-of select="@Name"/>']['Type'] = "<xsl:value-of select="@Type"/>"<xsl:text>;&#10;</xsl:text>
+		<xsl:text>$FinalTables</xsl:text>['<xsl:value-of select="../@Name"/>']['Fields']['<xsl:value-of select="@Name"/>']['Length'] = "<xsl:value-of select="@Length"/>"<xsl:text>;&#10;</xsl:text>
 		<xsl:text>$FinalTables</xsl:text>['<xsl:value-of select="../@Name"/>']['Fields']['<xsl:value-of select="@Name"/>']['NotNull'] = <xsl:value-of select="@NotNull"/><xsl:text>;&#10;</xsl:text>
 		<xsl:text>$FinalTables</xsl:text>['<xsl:value-of select="../@Name"/>']['Fields']['<xsl:value-of select="@Name"/>']['AutoIncrement'] = <xsl:value-of select="@AutoIncrement"/><xsl:text>;&#10;</xsl:text>
 	</xsl:template>

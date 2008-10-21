@@ -27,6 +27,7 @@ function GetTables() {
 			}
 			
 			GetTableData($TableData, $record[$keyname]);
+			SetMaxLengths($TableData, $record[$keyname]);
 		}
 		$result->free();
 	}
@@ -61,12 +62,16 @@ function GetTableData(&$TableData, $TableName) {
 			$record =& $result->fetchRow(DB_FETCHMODE_ASSOC, $i);
 			
 			if (DBTYPE == 'mysql') {
-				$TableData[$TableName]['Fields'][$record['Field']]['Type'] = GetCommonType($record['Type']);
+				$type = preg_replace('/\([0-9]+\)/', '', $record['Type']);
+				$length = preg_replace('/^.*\(([0-9]+)\).*$/', '$1', $record['Type']);
+				$TableData[$TableName]['Fields'][$record['Field']]['Type'] = GetCommonType($type);
+				$TableData[$TableName]['Fields'][$record['Field']]['Length'] = (GetCommonType($type) == "varchar" && !empty($length) ? $length : '');
 				$TableData[$TableName]['Fields'][$record['Field']]['NotNull'] = strtolower($record['Null']) != "yes";
 				$TableData[$TableName]['Fields'][$record['Field']]['AutoIncrement'] = strpos($record['Extra'],"auto_increment") !== false;
 			}
 			elseif (DBTYPE == 'postgres') {
-				$TableData[$TableName]['Fields'][$record['column_name']]['Type'] = GetCommonType($record['data_type']) . (!empty($record['character_maximum_length']) ? '('.$record['character_maximum_length'].')' : '');
+				$TableData[$TableName]['Fields'][$record['column_name']]['Type'] = GetCommonType($record['data_type']);
+				$TableData[$TableName]['Fields'][$record['column_name']]['Length'] = (!empty($record['character_maximum_length']) ? $record['character_maximum_length'].'' : '');
 				$TableData[$TableName]['Fields'][$record['column_name']]['NotNull'] = strtolower($record['is_nullable']) != "yes";
 				$TableData[$TableName]['Fields'][$record['column_name']]['AutoIncrement'] = strpos($record['column_default'],'nextval(') === 0;
 			}
@@ -127,6 +132,38 @@ function GetTableData(&$TableData, $TableName) {
 					}
 				}
 			}
+		}
+		$result->free();
+	}
+}
+
+function SetMaxLengths(&$TableData, $TableName) {
+	$Fields =& $TableData[$TableName]['Fields'];
+	$FieldNames = array_keys($Fields);
+	
+	$query = "SELECT ";
+	for ($i = 0; $i < count($FieldNames); $i++) {
+		if ($i > 0) $query .= ", ";
+		if (preg_match('/^(varchar|text)$/', $Fields[$FieldNames[$i]]['Type'])) {
+			$query .= "max(length(".$FieldNames[$i].")) as ".$FieldNames[$i]."_max";
+		}
+		else {
+			$query .= "max(".$FieldNames[$i].") as ".$FieldNames[$i]."_max";
+		}
+	}
+	$query .= " FROM " . FIELDQUALIFIER . SCHEMA . FIELDQUALIFIER . "." . FIELDQUALIFIER . $TableName . FIELDQUALIFIER;
+	
+	$result =& DBquery($query);
+	
+	if (is_string($result)) {
+		echo "<div class='Error'><b>Error:</b> Failed to determine max field lengths for `<code>" . $TableName . "</code>`: " . $result . "</div>";
+		return false;
+	}
+	else {
+		$record =& $result->fetchRow(DB_FETCHMODE_ASSOC, 0);
+		for ($i = 0; $i < count($FieldNames); $i++) {
+			$value = $record[$FieldNames[$i].'_max'];
+			$Fields[$FieldNames[$i]]['Max'] = !empty($value) ? intval($record[$FieldNames[$i].'_max']) : 0;
 		}
 		$result->free();
 	}
@@ -249,13 +286,15 @@ function CheckTable($TableName) {
 				if (DBTYPE == 'mysql') {
 					if (!empty($TableSQL)) $TableSQL .= ", \n";
 					$TableSQL .= "\tMODIFY COLUMN " . FIELDQUALIFIER . $FinalTablesFields[$i] . FIELDQUALIFIER . " " . GetFieldSQL($FinalTables, $TableName, $FinalTablesFields[$i]);
+					CheckFieldLength($TableName, $FinalTablesFields[$i]);
 				}
 				elseif (DBTYPE == 'postgres') {
+					CheckFieldLength($TableName, $FinalTablesFields[$i]);
 					$Field = $FinalTables[$TableName]['Fields'][$FinalTablesFields[$i]];
 					
 					if ($Diff['Type']) {
 						if (!empty($TableSQL)) $TableSQL .= ", \n";
-						$TableSQL .= "\tALTER COLUMN " . FIELDQUALIFIER . $FinalTablesFields[$i] . FIELDQUALIFIER . " TYPE " . ($Field['AutoIncrement'] ? 'SERIAL' : $Field['Type']);
+						$TableSQL .= "\tALTER COLUMN " . FIELDQUALIFIER . $FinalTablesFields[$i] . FIELDQUALIFIER . " TYPE " . ($Field['AutoIncrement'] ? 'SERIAL' : $Field['Type'] . (!empty($Field['Length']) ? '('.$Field['Length'].')' : ''));
 					}
 					if ($Diff['NotNull']) {
 						if (!empty($TableSQL)) $TableSQL .= ", \n";
@@ -359,13 +398,27 @@ function CheckField($TableName, $FieldName) {
 	$FinalField = $FinalTables[$TableName]['Fields'][$FieldName];
 	
 	$Diff = array();
-	$Diff['Type'] = $CurrentField['Type'] != $FinalField['Type'];
+	$Diff['Type'] = $CurrentField['Type'] != $FinalField['Type'] || $CurrentField['Length'] != $FinalField['Length'];
 	$Diff['NotNull'] = $CurrentField['NotNull'] != $FinalField['NotNull'];
 	$Diff['AutoIncrement'] = $CurrentField['AutoIncrement'] != $FinalField['AutoIncrement'];
 	
 	if ($Diff['Type'] || $Diff['NotNull'] || $Diff['AutoIncrement']) {
 		echo "<div class='Alter Field'><b>Alter Field:</b> The `<code>" . $FieldName . "</code>` field in the `<code>" . $TableName . "</code>` table needs to be altered from `<code>" . GetFieldSQL($CurrentTables, $TableName, $FieldName) . "</code>` to `<code>" . GetFieldSQL($FinalTables, $TableName, $FieldName) . "</code>`.</div>";
 		return $Diff;
+	}
+	
+	return true;
+}
+
+function CheckFieldLength($TableName, $FieldName) {
+	global $CurrentTables, $FinalTables;
+	
+	$CurrentField = $CurrentTables[$TableName]['Fields'][$FieldName];
+	$FinalField = $FinalTables[$TableName]['Fields'][$FieldName];
+	
+	if (!empty($FinalField['Length']) && $CurrentField['Max'] > intval($FinalField['Length'])) {
+		echo "<div class='Error Field'><b>Field Length Warning:</b> The `<code>" . $FieldName . "</code>` field in the `<code>" . $TableName . "</code>` contains data that is longer (".$CurrentField['Max']." characters) than the new length (".$FinalField['Length']." characters).</div>";
+		return false;
 	}
 	
 	return true;
@@ -392,7 +445,7 @@ function GetFieldSQL(&$TableData, $TableName, $FieldName) {
 		return "SERIAL";
 	}
 	else {
-		$sql = $Field['Type'];
+		$sql = $Field['Type'] . (!empty($Field['Length']) ? '('.$Field['Length'].')' : '');
 		if ($Field['NotNull']) $sql .= " NOT NULL";
 		if ($Field['AutoIncrement']) $sql .= " auto_increment";
 	}
