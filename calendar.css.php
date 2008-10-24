@@ -22,7 +22,7 @@ header("Content-Type: text/css");
 }
 
 /* Background color for table headers (may be column or row headers) */
-tr.TableHeaderBG td, td.TableHeaderBG {
+#CalendarBlock tr.TableHeaderBG td, #CalendarBlock td.TableHeaderBG {
 	color: <?php echo $_SESSION['COLOR_TABLE_HEADER_TEXT']; ?>;
 	background-color: <?php echo $_SESSION['COLOR_TABLE_HEADER_BG']; ?>;
 }

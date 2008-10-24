@@ -313,11 +313,14 @@ function isValidInput($value, $type) {
 	}
 	
 	/* =========================================================
-	                   Export Page Validation
+                  Import/Export Page Validation
 	========================================================= */
 	
 	elseif ($type=='type') {
 		if ($value=="xml" || $value=="rss" || $value=="ical" || $value=="rss1_0" || $value=="vxml") { return TRUE; }
+	}
+	elseif ($type=='importformat') {
+		if ($value=="xml" || $value=="ical") { return TRUE; }
 	}
 	elseif ($type=='exportformat') {
 		if ($value=="html" || $value=="js" || $value=="xml" || $value=="rss" || $value=="ical" || $value=="rss1_0" || $value=="rss2_0" || $value=="vxml") { return TRUE; }

@@ -62,7 +62,7 @@ function SpecificSponsorChanged() {
 <div class="FormSectionHeader"><h3><?php echo lang('export_settings'); ?>:</h3></div>
 
 <div style="padding-left: 10px;">
-	<p><b><?php echo lang('export_format'); ?></b></p>
+	<p><b><?php echo lang('export_format'); ?>:</b></p>
 	
 	<blockquote>
 		<?php if (isset($FormErrors['format'])) echo '<p class="FormError"><img src="install/failed.png" class="png" width="16" height="16" alt="" align="left"> '.$FormErrors['format'].'</p>'; ?>
