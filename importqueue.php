@@ -26,26 +26,46 @@ else {
 			<tr class="TableHeaderBG">
 				<td>&nbsp;</td>
 				<td><b>Date/Time Queued</b></td>
-				<td><b>File Name</b></td>
-				<td><b>File Size</b></td>
-				<td><b>Format</b></td>
+				<td><b>Status</b></td>
 				<td><b>Date/Time Finished</b></td>
-				<td><b>Result</b></td>
+				<td><b>Format</b></td>
+				<td><b>File Name</b></td>
+				<td>&nbsp;</td>
 			</tr>
 			<?php
 			for ($i = 0; $i < $result->numRows(); $i++) {
 				$record =& $result->fetchRow(DB_FETCHMODE_ASSOC,$i);
 				
-				$resultMessage = $record['result'];
+				switch ($record['result']) {
+					case 0:
+						$resultMessage = "Waiting";
+						break;
+					case 1:
+						$resultMessage = "Canceled";
+						break;
+					case 2:
+						$resultMessage = "Running";
+						break;
+					case 3:
+						$resultMessage = "Imported";
+						break;
+					case 4:
+						$resultMessage = "Failed";
+						break;
+					default:
+						$resultMessage = "Unknown";
+						break;
+				}
 				
 				echo '<tr>'
-					.'<td><a href="deletequeue.php?id='.urlencode($record['importid']).'">Cancel</a></td>'
+					.'<td><a href="importqueue.php?action=view&id='.urlencode($record['importid']).'">Details</a></td>'
 					.'<td>'.htmlentities($record['queued']).'</td>'
-					.'<td><code>'.htmlentities($record['filename']).'</code></td>'
-					.'<td>'.htmlentities($record['filesize']).'</td>'
-					.'<td>'.htmlentities($record['format']).'</td>'
-					.'<td>'.(htmlentities($record['finished']) == '' ? '&nbsp;' : htmlentities($record['finished'])).'</td>'
 					.'<td>'.htmlentities($resultMessage).'</td>'
+					.'<td>'.(htmlentities($record['finished']) == '' ? '&nbsp;' : htmlentities($record['finished'])).'</td>'
+					.'<td>'.htmlentities($record['format']).'</td>'
+					.'<td><code>'.htmlentities($record['filename']).'</code></td>'
+					//.'<td>'.htmlentities(formatBytes($record['filesize'])).'</td>'
+					.'<td><a href="importqueue.php?action=delete&id='.urlencode($record['importid']).'">Cancel</a></td>'
 					.'</tr>';
 			}
 			?>
