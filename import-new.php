@@ -78,7 +78,7 @@ if ($FormSubmitted && count($FormErrors) == 0) {
 	if (QUEUE_IMPORTS) {
 		// Prefix the temp file name with the current day of the year.
 		// This allows a daily script to delete any files older than X days.
-		$importedFilePath = tempnam(IMPORT_DIR, sprintf('%03s', date('z')));
+		$importedFilePath = tempnam(IMPORT_DIR, sprintf('%03s', date('z', NOW)));
 		
 		// Verify the the file was uploaded via POST.
 		if (is_uploaded_file($_FILES['uploadedfile']['tmp_name'])) {
@@ -126,7 +126,8 @@ if (isset($SuccessMessage)) {
 
 <form enctype="multipart/form-data" action="import-new.php" method="POST">
 
-<input type="hidden" name="MAX_FILE_SIZE" value="100000" />
+<?php echo ini_get('upload_max_filesize'); ?>
+<?php echo ini_get('post_max_size'); ?>
 
 	<p><b><?php echo lang('import_format'); ?>:</b></p>
 	
