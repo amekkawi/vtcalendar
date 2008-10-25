@@ -252,4 +252,31 @@ if (!function_exists("html_entity_decode")) {
 		return str_replace("&amp;", "&", str_replace("&lt;", "<", str_replace("&gt;", ">", str_replace("&quot;", '"', $string))));
 	}
 }
+
+function formatBytes($bytes) {
+	if ($bytes == 1) {
+		return $bytes . " byte";
+	}
+	else if ($bytes < 1024) {
+		return $bytes . " bytes";
+	}
+	//else if ($bytes == 1024) {
+	//	return number_format($bytes / 1024, 2) . " Kbyte";
+	//}
+	else if ($bytes < 1048576) {
+		return number_format($bytes / 1024, 2) . " Kbytes";
+	}
+	//else if ($bytes == 1048576) {
+	//	return number_format($bytes / 1048576, 2) . " Mbyte";
+	//}
+	else if ($bytes < 1073741824) {
+		return number_format($bytes / 1048576, 2) . " Mbytes";
+	}
+	//else if ($bytes == 1073741824) {
+	//	return number_format($bytes / 1073741824, 2) . " Gbyte";
+	//}
+	else {
+		return number_format($bytes / 1073741824, 2) . " Gbytes";
+	}
+}
 ?>
