@@ -224,29 +224,28 @@ function isValidUser($userid) {
  * @return object|string the results if successful; otherwise, a string with the error message.
  */
 function GetExportData($CalendarID, &$FormData) {
-	$FormData['compactrepeat'] = true;
-	
 	$dataquery = "SELECT e.*, c.name as category_name, s.name as sponsor_name"
 		." FROM ".SCHEMANAME."vtcal_event_public e, ".SCHEMANAME."vtcal_sponsor s, ".SCHEMANAME."vtcal_category c"
-		." \nWHERE e.calendarid='". sqlescape($CalendarID) ."' AND e.categoryid = c.id AND e.sponsorid = s.id ";
+		." WHERE e.calendarid='". sqlescape($CalendarID) ."' AND e.categoryid = c.id AND e.sponsorid = s.id ";
 	
 	// Only show the first matching event for a repeating event, if we are compacting repeats and the id was not specified.
-	if ($FormData['compactrepeat'] && !isset($FormData['id'])) {
+	if ($FormData['compactrepeats'] && !isset($FormData['id'])) {
 		$prequery = "SELECT substr(e.id, 1, 10) as cutid, min(e.id) as minid"
 			." FROM ".SCHEMANAME."vtcal_event e"
-			." \nWHERE e.calendarid='". sqlescape($CalendarID) ."' "
-			. BuildExportQueryClause($CalendarID, $FormData)
-			." \nGROUP BY cutid";
+			." WHERE e.calendarid='". sqlescape($CalendarID) ."' "
+			. BuildExportQueryClause($FormData)
+			." GROUP BY cutid";
 		
 		// Append a LIMIT if a maximum number of events was specified.
 		if (isset($FormData['maxevents'])) {
-			$prequery .= " \nLIMIT " . $FormData['maxevents'];
+			$prequery .= " LIMIT " . $FormData['maxevents'];
 		}
-		
-		echo $prequery. "\n\n";
 		
 		$result =& DBQuery($prequery);
 		if (is_string($result)) {
+			return $result;
+		}
+		elseif ($result->numRows() == 0) {
 			return $result;
 		}
 		else {
@@ -267,10 +266,8 @@ function GetExportData($CalendarID, &$FormData) {
 	
 	// Otherwise, get the data without compacting repeats.
 	else {
-		$dataquery .= BuildExportQueryClause($CalendarID, $FormData);
+		$dataquery .= BuildExportQueryClause($FormData);
 	}
-	
-	echo $dataquery . "\n\n";
 	
 	$result =& DBQuery($dataquery);
 	return $result;
@@ -285,18 +282,18 @@ function GetExportData($CalendarID, &$FormData) {
 function BuildExportQuery($CalendarID, &$FormData) {
 	$query = "SELECT e.*, c.name as category_name, s.name as sponsor_name"
 		." FROM ".SCHEMANAME."vtcal_event_public e, ".SCHEMANAME."vtcal_sponsor s, ".SCHEMANAME."vtcal_category c"
-		." \nWHERE e.calendarid='". sqlescape($CalendarID) ."' AND e.categoryid = c.id AND e.sponsorid = s.id ";
+		." WHERE e.calendarid='". sqlescape($CalendarID) ."' AND e.categoryid = c.id AND e.sponsorid = s.id ";
 	
-	$query .= BuildExportQueryClause($CalendarID, $FormData);
+	$query .= BuildExportQueryClause($FormData);
 	
 	// Ignore other filters if an ID was specified.
 	if (!isset($FormData['id'])) {
 		// Order the query
-		$query .= " \nORDER BY e.timebegin, e.title";
+		$query .= " ORDER BY e.timebegin, e.title";
 	
 		// Append a LIMIT if a maximum number of events was specified.
 		if (isset($FormData['maxevents'])) {
-			$query .= " \nLIMIT " . $FormData['maxevents'];
+			$query .= " LIMIT " . $FormData['maxevents'];
 		}
 	}
 	
@@ -309,7 +306,7 @@ function BuildExportQuery($CalendarID, &$FormData) {
  * @return string the where clause
  */
 function BuildExportQueryClause(&$FormData) {
-	$where = ""; //" e.calendarid='". sqlescape($CalendarID) ."' ";
+	$where = "";
 	
 	// Ignore other filters if an ID was specified.
 	if (isset($FormData['id'])) {

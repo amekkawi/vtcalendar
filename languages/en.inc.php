@@ -286,6 +286,8 @@
 		$lang['export_maxlocationchars'] = 'Maximum Characters for the Location';
 		$lang['export_maxlocationchars_description'] = 'If you have a limited amount of space on your Web site, you may limit the length of the event location.<br>Any locations that are beyond this length will be truncated and an ellipse (...) will be added to the end.';
 		$lang['export_maxlocationchars_error'] = 'You must enter either a number below or leave it blank.';
+		$lang['export_compactrepeats'] = 'Compact Repeating Events';
+		$lang['export_compactrepeats_description'] = 'Only show the first matched event for a series of repeating events. This avoids daily repeating events from taking over an events list.';
 		$lang['export_preview_return'] = 'Return to the Form';
 		$lang['export_preview_download'] = 'Download Exported Events';
 		$lang['export_preview_download_text'] = 'To save the exported events, <a href="%URL%" onclick="return false;">right-click this link</a> (CTRL-click on a Mac) and select &quot;Save Target As...&quot; or &quot;Save Link As...&quot;';
