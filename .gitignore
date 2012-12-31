@@ -1,0 +1,27 @@
+# Generated from SVN using:
+# git svn show-ignore -i trunk > .gitignore
+
+# /
+/config.inc.php
+/.cache
+/.settings
+/.project
+/VERSION-DBCHECKED.txt
+/.buildpath
+
+# /cache/
+/cache/generate.bat
+/cache/generate.sh
+
+# /cache/subscribe/
+/cache/subscribe/*
+
+# /dev/
+/dev/bin
+
+# /static-includes/
+/static-includes/subcalendar-pre-header.txt
+/static-includes/loginform.txt
+/static-includes/subcalendar-post-footer.txt
+/static-includes/subcalendar-post-header.txt
+/static-includes/subcalendar-pre-footer.txt
