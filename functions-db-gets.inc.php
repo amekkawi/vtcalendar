@@ -218,6 +218,62 @@ function isValidUser($userid) {
 }
 
 /**
+ * Get data to be exported.
+ * @param int the ID for calendar to retrieve events from.
+ * @param array the export parameters
+ * @return object|string the results if successful; otherwise, a string with the error message.
+ */
+function GetExportData($CalendarID, &$FormData) {
+	$dataquery = "SELECT e.*, c.name as category_name, s.name as sponsor_name"
+		." FROM ".SCHEMANAME."vtcal_event_public e, ".SCHEMANAME."vtcal_sponsor s, ".SCHEMANAME."vtcal_category c"
+		." WHERE e.calendarid='". sqlescape($CalendarID) ."' AND e.categoryid = c.id AND e.sponsorid = s.id ";
+	
+	// Only show the first matching event for a repeating event, if we are compacting repeats and the id was not specified.
+	if ($FormData['compactrepeats'] && !isset($FormData['id'])) {
+		$prequery = "SELECT substr(e.id, 1, 10) as cutid, min(e.id) as minid"
+			." FROM ".SCHEMANAME."vtcal_event e"
+			." WHERE e.calendarid='". sqlescape($CalendarID) ."' "
+			. BuildExportQueryClause($FormData)
+			." GROUP BY cutid";
+		
+		// Append a LIMIT if a maximum number of events was specified.
+		if (isset($FormData['maxevents'])) {
+			$prequery .= " LIMIT " . $FormData['maxevents'];
+		}
+		
+		$result =& DBQuery($prequery);
+		if (is_string($result)) {
+			return $result;
+		}
+		elseif ($result->numRows() == 0) {
+			return $result;
+		}
+		else {
+			$dataquery .= " AND ( ";
+			
+			$ids = array();
+			for ($i = 0; $i < $result->numRows(); $i++) {
+				$record = $result->fetchRow(DB_FETCHMODE_ASSOC,$i);
+				$ids[count($ids)] = $record['minid'];
+				if ($i > 0) $dataquery .= " OR";
+				$dataquery .= " e.id = '" . sqlescape($record['minid']) . "' ";
+			}
+			$result->free();
+			
+			$dataquery .= " ) ";
+		}
+	}
+	
+	// Otherwise, get the data without compacting repeats.
+	else {
+		$dataquery .= BuildExportQueryClause($FormData);
+	}
+	
+	$result =& DBQuery($dataquery);
+	return $result;
+}
+
+/**
  * Build a query for exporting events.
  * @param int the ID for calendar to retrieve events from.
  * @param array the parameters to get the query by.
@@ -226,60 +282,78 @@ function isValidUser($userid) {
 function BuildExportQuery($CalendarID, &$FormData) {
 	$query = "SELECT e.*, c.name as category_name, s.name as sponsor_name"
 		." FROM ".SCHEMANAME."vtcal_event_public e, ".SCHEMANAME."vtcal_sponsor s, ".SCHEMANAME."vtcal_category c"
-		." WHERE e.calendarid='". sqlescape($CalendarID) ."' AND e.categoryid = c.id AND e.sponsorid = s.id";
+		." WHERE e.calendarid='". sqlescape($CalendarID) ."' AND e.categoryid = c.id AND e.sponsorid = s.id ";
+	
+	$query .= BuildExportQueryClause($FormData);
+	
+	// Ignore other filters if an ID was specified.
+	if (!isset($FormData['id'])) {
+		// Order the query
+		$query .= " ORDER BY e.timebegin, e.title";
+	
+		// Append a LIMIT if a maximum number of events was specified.
+		if (isset($FormData['maxevents'])) {
+			$query .= " LIMIT " . $FormData['maxevents'];
+		}
+	}
+	
+	return $query;
+}
+
+/**
+ * Build the clause for a query that would export events.
+ * @param array the export parameters
+ * @return string the where clause
+ */
+function BuildExportQueryClause(&$FormData) {
+	$where = "";
 	
 	// Ignore other filters if an ID was specified.
 	if (isset($FormData['id'])) {
-		$query .= " AND e.id='".sqlescape($FormData['id'])."' ";
+		$where .= " AND e.id='".sqlescape($FormData['id'])."' ";
 	}
 	else {
 		// Filter by date.
 		if (isset($FormData['timebegin'])) {
 			if ($FormData['timebegin'] == "upcoming") {
-				$query .= " AND e.timeend > '" . sqlescape(NOW_AS_TEXT) ."' ";
+				$where .= " AND e.timeend > '" . sqlescape(NOW_AS_TEXT) ."' ";
 				$BeginTicks = NOW;
 			}
 			elseif ($FormData['timebegin'] == "today") {
-				$query .= " AND e.timebegin >= '" . sqlescape(substr(NOW_AS_TEXT, 0, 10))." 00:00:00' ";
+				$where .= " AND e.timebegin >= '" . sqlescape(substr(NOW_AS_TEXT, 0, 10))." 00:00:00' ";
 				$BeginTicks = NOW;
 			}
 			else {
-				$query .= " AND e.timebegin >= '" . sqlescape($FormData['timebegin']). " 00:00:00' ";
+				$where .= " AND e.timebegin >= '" . sqlescape($FormData['timebegin']). " 00:00:00' ";
 				$BeginTicks = strtotime($FormData['timebegin']);
 			}
 			
 			if (isset($FormData['timeend'])) {
 				if (isValidInput($FormData['timeend'], 'int_gte1')) {
-					$query .= " AND e.timeend <= '" . sqlescape(date("Y-m-d", strtotime($FormData['timeend']." day", $BeginTicks))) . " 23:59:59' ";
+					$where .= " AND e.timeend <= '" . sqlescape(date("Y-m-d", strtotime($FormData['timeend']." day", $BeginTicks))) . " 23:59:59' ";
 				}
 				else {
-					$query .= " AND e.timeend <= '" . sqlescape($FormData['timeend']). " 23:59:59' ";
+					$where .= " AND e.timeend <= '" . sqlescape($FormData['timeend']). " 23:59:59' ";
 				}
 			}
 		}
 		
 		// Show only the specified categories.
 		if (isset($FormData['categories']) && count($FormData['categories']) > 0) {
-			$query .= " AND (";
+			$where .= " AND (";
 			for ($i = 0; $i < count($FormData['categories']); $i++) {
-				if ($i > 0) $query .= " OR ";
-				$query .= " e.categoryid = '".sqlescape($FormData['categories'][$i])."' ";
+				if ($i > 0) $where .= " OR ";
+				$where .= " e.categoryid = '".sqlescape($FormData['categories'][$i])."' ";
 			}
-			$query .= ") ";
+			$where .= ") ";
 		}
 		
 		// Filter by the specified sponsor string, if one was specified.
 		if ($FormData['sponsor'] == "specific") {
-			$query .= " AND e.displayedsponsor LIKE '%" . sqlescape($FormData['specificsponsor']) . "%'";
+			$where .= " AND e.displayedsponsor LIKE '%" . sqlescape($FormData['specificsponsor']) . "%' ";
 		}
-	
-		// Order the query
-		$query .= " ORDER BY e.timebegin, e.title";
 	}
 	
-	// Append a LIMIT if a maximum number of events was specified.
-	if (isset($FormData['maxevents'])) $query .= ' LIMIT ' . $FormData['maxevents'];
-	
-	return $query;
+	return $where;
 }
 ?>

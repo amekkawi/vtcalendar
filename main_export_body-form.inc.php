@@ -428,6 +428,21 @@ function SpecificSponsorChanged() {
 		<p><input name="maxlocationcharacters" type="text" id="maxlocationcharacters" value=""> (<?php echo lang('export_leaveblank'); ?>)</p>
 	</blockquote>
 	
+	<p><b><?php echo lang('export_compactrepeats'); ?>:</b></p>
+	<blockquote>
+		<p><?php echo lang('export_compactrepeats_description'); ?></p>
+		<table border="0" cellspacing="1" cellpadding="0">
+			<tr>
+				<td><input name="compactrepeats" id="compactrepeats_yes" type="radio" value="1" <?php if (isset($FormData['compactrepeats']) && $FormData['compactrepeats'] == '1') echo "checked"; ?>></td>
+				<td><label for="compactrepeats_yes"><?php echo lang('yes'); ?></label></td>
+			</tr>
+			<tr>
+				<td><input name="compactrepeats" id="compactrepeats_no" type="radio" value="0" <?php if (isset($FormData['compactrepeats']) && $FormData['compactrepeats'] == '0') echo "checked"; ?>></td>
+				<td><label for="compactrepeats_no"><?php echo lang('no'); ?></label></td>
+			</tr>
+		</table>
+	</blockquote>
+	
 	<p><input type="Submit" name="createexport" value="<?php echo lang('export_submit'); ?>"><?php echo lang('export_resetform'); ?></p>
 </div>
 

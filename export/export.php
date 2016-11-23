@@ -86,10 +86,10 @@ elseif ($calendardata['viewauthrequired'] > 0) {
 // Get the events from the database.
 // ==========================================================
 
-$query = BuildExportQuery($CalendarID, $FormData);
+//$query = BuildExportQuery($CalendarID, $FormData);
 
 // Execute the query, and output an error message if one was caught.
-if (is_string( $result =& DBQuery($query) ) ) {
+if (is_string( $result =& GetExportData($CalendarID, $FormData) ) ) {
 	outputErrorMessage("A database error occurred: ". $result);
 }
 

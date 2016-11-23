@@ -24,6 +24,7 @@ $FormData['showdatetime'] = '1';
 $FormData['showlocation'] = '1';
 $FormData['showallday'] = '1';
 $FormData['specificsponsor'] = '';
+$FormData['compactrepeats'] = '0';
 
 // Make a copy of the defaults so they can be removed from the query string to make things simpler.
 $FormDataDefaults = $FormData;
@@ -77,5 +78,7 @@ if (isset($FormData['format']) && $FormData['format'] == "html") {
 	if (isset($_GET['showallday'])) setVar($FormData['showallday'],$_GET['showallday'],'boolean');
 	if (!empty($_GET['maxtitlecharacters'])) if (!setVar($FormData['maxtitlecharacters'],$_GET['maxtitlecharacters'],'int_gte1')) $FormErrors['maxtitlecharacters'] = lang('export_maxtitlechars_error');
 	if (!empty($_GET['maxlocationcharacters'])) if (!setVar($FormData['maxlocationcharacters'],$_GET['maxlocationcharacters'],'int_gte1')) $FormErrors['maxlocationcharacters'] = lang('export_maxlocationchars_error');
+	
+	if (isset($_GET['compactrepeats'])) setVar($FormData['compactrepeats'],$_GET['compactrepeats'],'boolean');
 }
 ?>

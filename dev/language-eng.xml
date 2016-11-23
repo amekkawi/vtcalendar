@@ -296,6 +296,9 @@
 			<Item Name="export_maxlocationchars_description">'If you have a limited amount of space on your Web site, you may limit the length of the event location.&lt;br&gt;Any locations that are beyond this length will be truncated and an ellipse (...) will be added to the end.'</Item>
 			<Item Name="export_maxlocationchars_error">'You must enter either a number below or leave it blank.'</Item>
 			
+			<Item Name="export_compactrepeats">'Compact Repeating Events'</Item>
+			<Item Name="export_compactrepeats_description">'Only show the first matched event for a series of repeating events. This avoids daily repeating events from taking over an events list.'</Item>
+			
 			<Item Name="export_preview_return">'Return to the Form'</Item>
 			
 			<Item Name="export_preview_download">'Download Exported Events'</Item>
